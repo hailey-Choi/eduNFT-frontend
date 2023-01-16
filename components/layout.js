@@ -1,7 +1,5 @@
 import Head from "next/head";
 import Image from "next/image";
-import styles from "./layout.module.css";
-import utilStyles from "../styles/utils.module.css";
 import Link from "next/link";
 
 const name = "Welcome to EduNFT";
@@ -9,22 +7,21 @@ export const siteTitle = "EduNFT";
 
 export default function Layout({ children, home }) {
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      <header className={styles.header}>
+      <header>
         {home ? (
           <>
             <Image
               priority
               src="/images/elfo.svg"
-              className={utilStyles.borderCircle}
               height={144}
               width={144}
               alt=""
             />
-            <h1 className={utilStyles.heading2Xl}>{name}</h1>
+            <h1>{name}</h1>
           </>
         ) : (
           <>
@@ -32,22 +29,19 @@ export default function Layout({ children, home }) {
               <Image
                 priority
                 src="/images/elfo.svg"
-                className={utilStyles.borderCircle}
                 height={108}
                 width={108}
                 alt=""
               />
             </Link>
-            <h2 className={utilStyles.headingLg}>
-              <Link href="/" className={utilStyles.colorInherit}>
-                {name}
-              </Link>
+            <h2>
+              <Link href="/">{name}</Link>
             </h2>
           </>
         )}
       </header>
       <main>{children}</main>
-      <div className={styles.backToHome}>
+      <div>
         {home ? (
           <Link href="/dall-e">Next Page</Link>
         ) : (
