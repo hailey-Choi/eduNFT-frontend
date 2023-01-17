@@ -28,7 +28,7 @@ module.exports = {
         "5xl": "2.5rem",
       },
       fontFamily: {
-        sans: ["Inter", ...defaultTheme.fontFamily.sans],
+        sans: ["ui-monospace", ...defaultTheme.fontFamily.sans],
         display: ["DM Sans", ...defaultTheme.fontFamily.sans],
       },
       maxWidth: {
@@ -36,5 +36,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/forms")],
 };
