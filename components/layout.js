@@ -1,59 +1,34 @@
 import Head from "next/head";
-import Image from "next/image";
-import styles from "./layout.module.css";
-import utilStyles from "../styles/utils.module.css";
-import Link from "next/link";
 
-const name = "Welcome to EduNFT";
-export const siteTitle = "EduNFT";
-
+import { Button } from "./Button";
+import { Container } from "./Container";
 export default function Layout({ children, home }) {
   return (
-    <div className={styles.container}>
+    <>
       <Head>
-        <title>{siteTitle}</title>
+        <title>EduNFT</title>
       </Head>
-      <header className={styles.header}>
-        {home ? (
-          <>
-            <Image
-              priority
-              src="/images/elfo.svg"
-              className={utilStyles.borderCircle}
-              height={144}
-              width={144}
-              alt=""
-            />
-            <h1 className={utilStyles.heading2Xl}>{name}</h1>
-          </>
-        ) : (
-          <>
-            <Link href="/">
-              <Image
-                priority
-                src="/images/elfo.svg"
-                className={utilStyles.borderCircle}
-                height={108}
-                width={108}
-                alt=""
-              />
-            </Link>
-            <h2 className={utilStyles.headingLg}>
-              <Link href="/" className={utilStyles.colorInherit}>
-                {name}
-              </Link>
-            </h2>
-          </>
-        )}
+      <header className="relative z-50 pb-11 lg:pt-11">
+        <Container className="flex flex-wrap items-center justify-center sm:justify-between lg:flex-nowrap">
+          <div className="mt-10 lg:mt-0 lg:grow lg:basis-0">
+            <h1
+              id="speakers-title"
+              className="font-bold text-5xl tracking-tighter  sm:text-5xl"
+            >
+              EduNFT
+            </h1>
+          </div>
+          <div className="order-first -mx-4 flex flex-auto basis-full overflow-x-auto whitespace-nowrap border-b border-blue-600/10 py-4 font-mono text-sm text-blue-600 sm:-mx-6 lg:order-none lg:mx-0 lg:basis-auto lg:border-0 lg:py-0">
+            <div className="mx-auto flex items-center gap-4 px-4">
+              <p>The ultimate educational platform for AI and Blockchain</p>
+            </div>
+          </div>
+          <div className="hidden sm:mt-10 sm:flex lg:mt-0 lg:grow lg:basis-0 lg:justify-end">
+            <Button href="#">Connect Wallet</Button>
+          </div>
+        </Container>
       </header>
       <main>{children}</main>
-      <div className={styles.backToHome}>
-        {home ? (
-          <Link href="/dall-e">Next Page</Link>
-        ) : (
-          <Link href="/">← Back to home</Link>
-        )}
-      </div>
-    </div>
+    </>
   );
 }
