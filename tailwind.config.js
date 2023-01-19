@@ -29,7 +29,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ["ui-monospace", ...defaultTheme.fontFamily.sans],
-        display: ["DM Sans", ...defaultTheme.fontFamily.sans],
+        mono: ['"Courier New"', ...defaultTheme.fontFamily.mono],
       },
       maxWidth: {
         "2xl": "40rem",

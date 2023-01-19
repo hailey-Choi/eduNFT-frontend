@@ -27,7 +27,6 @@ export default function Home() {
                 placeholder="white cat"
                 onChange={(e) => {
                   setTextInput(e.target.value);
-                  console.log(textInput);
                 }}
               />
             </div>

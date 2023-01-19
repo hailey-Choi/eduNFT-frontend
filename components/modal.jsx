@@ -1,5 +1,6 @@
 import { Button } from "../components/Button";
-export function Modal(props) {
+
+function Modal(props) {
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -16,7 +17,7 @@ export function Modal(props) {
                 <div className="md:col-span-1">
                   <img src={props.selectedImageUrl} />
                 </div>
-                <div className="mt-5 space-y-6 md:col-span-2 md:mt-0">
+                <form className="mt-5 space-y-6 md:col-span-2 md:mt-0">
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
                       Name
@@ -65,7 +66,7 @@ export function Modal(props) {
                       />
                     </div>
                   </div>
-                </div>
+                </form>
               </div>
             </div>
             {/*footer*/}
