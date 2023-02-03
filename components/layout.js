@@ -9,11 +9,10 @@ import { Container } from "./Container";
 export default function Layout({ children, home }) {
   const [showModal, setShowModal] = useState(false);
   const [privateKey, setPrivateKey] = useState(null);
-  /**
-   * getWallet method get wallet instance from caver.
-   */
+  const [keyStore, setKeyStore] = useState(null);
+  const [password, setPassword] = useState(null);
+
   const getWallet = () => {
-    console.log("caverjs wallet: ", caver.klay.accounts.wallet);
     if (caver.klay.accounts.wallet.length) {
       return caver.klay.accounts.wallet[0];
     }
@@ -24,7 +23,6 @@ export default function Layout({ children, home }) {
     if (typeof window !== "undefined") {
       sessionStorage.removeItem("walletInstance");
     }
-    // this.reset();
   };
 
   const integrateWallet = (privateKey) => {
@@ -33,13 +31,56 @@ export default function Layout({ children, home }) {
     if (typeof window !== "undefined") {
       sessionStorage.setItem("walletInstance", JSON.stringify(walletInstance));
     }
-    // this.reset();
   };
 
   const handleConnect = () => {
-    removeWallet();
-    integrateWallet(privateKey);
+    console.log("keystore: ", keyStore);
+    if (privateKey) {
+      integrateWallet(privateKey);
+    } else if (keyStore && password) {
+      try {
+        const { privateKey: privateKeyFromKeystore } =
+          caver.klay.accounts.decrypt(keyStore, password);
+        integrateWallet(privateKeyFromKeystore);
+      } catch (e) {
+        console.log("Password doesn't match");
+      }
+    }
+
     setShowModal(false);
+  };
+
+  const handleImport = (e) => {
+    console.log("e.target: ", e.target.files[0]);
+    const fileReader = new FileReader();
+    fileReader.onload = (e) => {
+      try {
+        if (!checkValidKeystore(e.target.result)) {
+          console.log("Invalid keystore file.");
+          return;
+        }
+        setKeyStore(e.target.result);
+      } catch (e) {
+        console.log("Invalid keystore file.");
+        return;
+      }
+    };
+    fileReader.readAsText(e.target.files[0]);
+  };
+
+  const checkValidKeystore = (keystore) => {
+    // e.target.result is popultaed by keystore contents.
+    // Since keystore contents is JSON string, we should parse it to use.
+    const parsedKeystore = JSON.parse(keystore);
+
+    // Valid key store has 'version', 'id', 'address', 'crypto' properties.
+    const isValidKeystore =
+      parsedKeystore.version &&
+      parsedKeystore.id &&
+      parsedKeystore.address &&
+      parsedKeystore.crypto;
+
+    return isValidKeystore;
   };
 
   return (
@@ -67,20 +108,14 @@ export default function Layout({ children, home }) {
               <Button
                 href="#"
                 onClick={() =>
-                  caver.klay.accounts.wallet.length
-                    ? removeWallet()
-                    : setShowModal(true)
+                  getWallet() ? removeWallet() : setShowModal(true)
                 }
               >
-                {caver.klay.accounts.wallet.length
-                  ? "Disconnect Wallet"
-                  : "Connect Wallet"}
+                {getWallet() ? "Disconnect Wallet" : "Connect Wallet"}
               </Button>
             </div>
-            {caver.klay.accounts.wallet.length ? (
-              <div className="text-xs">
-                {caver.klay.accounts.wallet[0].address}
-              </div>
+            {getWallet() ? (
+              <div className="text-xs">{getWallet().address}</div>
             ) : (
               <></>
             )}
@@ -103,12 +138,44 @@ export default function Layout({ children, home }) {
                         <form className="mt-5 space-y-6 md:col-span-2 md:mt-0">
                           <div>
                             <label className="block text-sm font-medium text-gray-700">
+                              Upload keystore
+                            </label>
+                            <div className="mt-1">
+                              <input
+                                id="keystore"
+                                name="name"
+                                type="file"
+                                onChange={handleImport}
+                                accept=".json"
+                              />
+                            </div>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700">
+                              Password
+                            </label>
+                            <div className="mt-1">
+                              <input
+                                id="password"
+                                name="password"
+                                type="text"
+                                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                defaultValue={""}
+                                onChange={(e) => {
+                                  setPassword(e.target.value);
+                                }}
+                              />
+                            </div>
+                          </div>
+                          <div>OR</div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700">
                               Enter your private key
                             </label>
                             <div className="mt-1">
                               <input
-                                id="name"
-                                name="name"
+                                id="privateKey"
+                                name="privateKey"
                                 type="text"
                                 className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 defaultValue={""}
