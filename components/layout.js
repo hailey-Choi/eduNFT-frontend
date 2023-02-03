@@ -1,8 +1,42 @@
 import Head from "next/head";
+import caver from "../klaytn/caver";
 
 import { Button } from "./Button";
 import { Container } from "./Container";
 export default function Layout({ children, home }) {
+  /**
+   * getWallet method get wallet instance from caver.
+   */
+  const getWallet = () => {
+    console.log("caverjs wallet: ", caver.klay.accounts.wallet);
+    if (caver.klay.accounts.wallet.length) {
+      return caver.klay.accounts.wallet[0];
+    }
+  };
+
+  const removeWallet = () => {
+    caver.klay.accounts.wallet.clear();
+    if (typeof window !== "undefined") {
+      sessionStorage.removeItem("walletInstance");
+    }
+    // this.reset();
+  };
+
+  const integrateWallet = () => {
+    const walletInstance = caver.klay.accounts.privateKeyToAccount(
+      "0x8e8cdef22e454cc4ef62d5f99ec87cf5dd4b24445eddf96331c2ba898b9430ef"
+    );
+    caver.klay.accounts.wallet.add(walletInstance);
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("walletInstance", JSON.stringify(walletInstance));
+    }
+    // this.reset();
+  };
+
+  removeWallet();
+  integrateWallet();
+  getWallet();
+
   return (
     <>
       <Head>
