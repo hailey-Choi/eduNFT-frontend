@@ -1,8 +1,40 @@
 import Head from "next/head";
-
+import { useState } from "react";
+import caver from "../klaytn/caver";
 import { Button } from "./Button";
 import { Container } from "./Container";
-export default function Layout({ children, home }) {
+
+export default function Layout({ children }) {
+  const [account, setAccount] = useState(null);
+  const [connected, setConnected] = useState(false);
+
+  const connectWallet = async () => {
+    if (!klaytn.isKaikas) {
+      alert("Install Kaikas Browser Extension first");
+      return;
+    }
+    const accounts = await klaytn.enable();
+    if (klaytn.networkVersion === 8217) {
+      // User is connected to mainnet
+    } else if (klaytn.networkVersion === 1001) {
+      // User is connected to testnet
+    } else {
+      // User is not connected to klaytn
+      alert("ERROR: Failed to connect to Klaytn network!");
+      return;
+    }
+
+    if (accounts) {
+      setAccount(accounts[0]);
+      setConnected(true);
+    }
+  };
+
+  const disconnectWallet = async () => {
+    setAccount(null);
+    setConnected(false);
+  };
+
   return (
     <>
       <Head>
@@ -23,8 +55,16 @@ export default function Layout({ children, home }) {
               <p>The ultimate educational platform for AI and Blockchain</p>
             </div>
           </div>
-          <div className="hidden sm:mt-10 sm:flex lg:mt-0 lg:grow lg:basis-0 lg:justify-end">
-            <Button href="#">Connect Wallet</Button>
+          <div>
+            <div className="hidden sm:mt-10 sm:flex lg:mt-0 lg:grow lg:basis-0 lg:justify-end">
+              <Button
+                onClick={connected ? disconnectWallet : connectWallet}
+                href="#"
+              >
+                {connected ? "Disconnect Wallet" : "Connect Wallet"}
+              </Button>
+            </div>
+            {account ? <div> Address : {account.slice(0, 12)} ...</div> : <></>}
           </div>
         </Container>
       </header>
