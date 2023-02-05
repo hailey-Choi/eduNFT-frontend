@@ -3,6 +3,8 @@ import { Button } from "../components/Button";
 import Layout from "../components/layout";
 import Link from "next/link";
 import { useState } from "react";
+import { Web3Address } from "../components/Web3Address";
+import { Web3Button } from "../components/Web3Button";
 
 export default function Home() {
   const [textInput, setTextInput] = useState("");
@@ -42,6 +44,8 @@ export default function Home() {
             <Button> Generate Images</Button>
           </Link>
         </div>
+        <Web3Button />
+        <Web3Address />
       </Container>
     </Layout>
   );

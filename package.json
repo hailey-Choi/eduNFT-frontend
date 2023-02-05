@@ -9,13 +9,16 @@
   "dependencies": {
     "@headlessui/react": "^1.7.7",
     "@heroicons/react": "^2.0.13",
+    "@walletconnect/web3-provider": "^1.8.0",
     "axios": "^1.2.2",
     "babel-preset-es2015": "^6.24.1",
     "clsx": "^1.2.1",
+    "ethers": "^6.0.2",
     "next": "^13.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-loader-spinner": "^5.3.4"
+    "react-loader-spinner": "^5.3.4",
+    "web3modal": "^1.9.12"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",
