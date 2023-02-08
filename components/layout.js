@@ -1,12 +1,14 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import caver from "../klaytn/caver";
 import { Button } from "./Button";
 import { Container } from "./Container";
+import AppContext from "./AppContext";
 
 export default function Layout({ children }) {
-  const [account, setAccount] = useState(null);
   const [connected, setConnected] = useState(false);
+
+  const context = useContext(AppContext);
 
   const connectWallet = async () => {
     if (!klaytn.isKaikas) {
@@ -25,13 +27,13 @@ export default function Layout({ children }) {
     }
 
     if (accounts) {
-      setAccount(accounts[0]);
+      context.setWallet(accounts[0]);
       setConnected(true);
     }
   };
 
   const disconnectWallet = async () => {
-    setAccount(null);
+    context.setWallet(null);
     setConnected(false);
   };
 
@@ -64,7 +66,11 @@ export default function Layout({ children }) {
                 {connected ? "Disconnect Wallet" : "Connect Wallet"}
               </Button>
             </div>
-            {account ? <div> Address : {account.slice(0, 12)} ...</div> : <></>}
+            {context.wallet ? (
+              <div> Address : {context.wallet.slice(0, 12)} ...</div>
+            ) : (
+              <></>
+            )}
           </div>
         </Container>
       </header>
