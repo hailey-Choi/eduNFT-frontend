@@ -11,6 +11,7 @@ export default function Collection() {
     <Layout>
       <Container>
         <p>Show Collections Here</p>
+        <button onClick={mint}>mint</button>
       </Container>
     </Layout>
   );
