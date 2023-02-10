@@ -1,11 +1,13 @@
 import Layout from "../components/layout";
 import axios from "axios";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useContext } from "react";
 import { ProgressBar } from "react-loader-spinner";
 import { Container } from "../components/Container";
 import { useRouter } from "next/router";
 import { Button } from "../components/Button";
+import AppContext from "../components/AppContext";
 import Caver from "caver-js";
+import { contractABI, contractAddress } from "../klaytn/contract";
 
 export default function DallE() {
   const router = useRouter();
@@ -16,527 +18,7 @@ export default function DallE() {
   const [nftDesc, setNftDesc] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const contractABI = [
-    {
-      inputs: [],
-      payable: false,
-      stateMutability: "nonpayable",
-      type: "constructor",
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "owner",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "address",
-          name: "approved",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "uint256",
-          name: "tokenId",
-          type: "uint256",
-        },
-      ],
-      name: "Approval",
-      type: "event",
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "owner",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "address",
-          name: "operator",
-          type: "address",
-        },
-        {
-          indexed: false,
-          internalType: "bool",
-          name: "approved",
-          type: "bool",
-        },
-      ],
-      name: "ApprovalForAll",
-      type: "event",
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "previousOwner",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "address",
-          name: "newOwner",
-          type: "address",
-        },
-      ],
-      name: "OwnershipTransferred",
-      type: "event",
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "from",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "address",
-          name: "to",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "uint256",
-          name: "tokenId",
-          type: "uint256",
-        },
-      ],
-      name: "Transfer",
-      type: "event",
-    },
-    {
-      constant: true,
-      inputs: [
-        {
-          internalType: "address",
-          name: "owner",
-          type: "address",
-        },
-      ],
-      name: "balanceOf",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "tokenId",
-          type: "uint256",
-        },
-      ],
-      name: "getApproved",
-      outputs: [
-        {
-          internalType: "address",
-          name: "",
-          type: "address",
-        },
-      ],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [
-        {
-          internalType: "address",
-          name: "owner",
-          type: "address",
-        },
-        {
-          internalType: "address",
-          name: "operator",
-          type: "address",
-        },
-      ],
-      name: "isApprovedForAll",
-      outputs: [
-        {
-          internalType: "bool",
-          name: "",
-          type: "bool",
-        },
-      ],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [],
-      name: "isOwner",
-      outputs: [
-        {
-          internalType: "bool",
-          name: "",
-          type: "bool",
-        },
-      ],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      constant: false,
-      inputs: [
-        {
-          internalType: "string",
-          name: "tokenURI",
-          type: "string",
-        },
-      ],
-      name: "mintNFT",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      payable: false,
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [],
-      name: "name",
-      outputs: [
-        {
-          internalType: "string",
-          name: "",
-          type: "string",
-        },
-      ],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [],
-      name: "owner",
-      outputs: [
-        {
-          internalType: "address payable",
-          name: "",
-          type: "address",
-        },
-      ],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "tokenId",
-          type: "uint256",
-        },
-      ],
-      name: "ownerOf",
-      outputs: [
-        {
-          internalType: "address",
-          name: "",
-          type: "address",
-        },
-      ],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      constant: false,
-      inputs: [],
-      name: "renounceOwnership",
-      outputs: [],
-      payable: false,
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      constant: false,
-      inputs: [
-        {
-          internalType: "address",
-          name: "from",
-          type: "address",
-        },
-        {
-          internalType: "address",
-          name: "to",
-          type: "address",
-        },
-        {
-          internalType: "uint256",
-          name: "tokenId",
-          type: "uint256",
-        },
-      ],
-      name: "safeTransferFrom",
-      outputs: [],
-      payable: false,
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      constant: false,
-      inputs: [
-        {
-          internalType: "address",
-          name: "from",
-          type: "address",
-        },
-        {
-          internalType: "address",
-          name: "to",
-          type: "address",
-        },
-        {
-          internalType: "uint256",
-          name: "tokenId",
-          type: "uint256",
-        },
-        {
-          internalType: "bytes",
-          name: "_data",
-          type: "bytes",
-        },
-      ],
-      name: "safeTransferFrom",
-      outputs: [],
-      payable: false,
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      constant: false,
-      inputs: [
-        {
-          internalType: "address",
-          name: "to",
-          type: "address",
-        },
-        {
-          internalType: "bool",
-          name: "approved",
-          type: "bool",
-        },
-      ],
-      name: "setApprovalForAll",
-      outputs: [],
-      payable: false,
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [
-        {
-          internalType: "bytes4",
-          name: "interfaceId",
-          type: "bytes4",
-        },
-      ],
-      name: "supportsInterface",
-      outputs: [
-        {
-          internalType: "bool",
-          name: "",
-          type: "bool",
-        },
-      ],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [],
-      name: "symbol",
-      outputs: [
-        {
-          internalType: "string",
-          name: "",
-          type: "string",
-        },
-      ],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "index",
-          type: "uint256",
-        },
-      ],
-      name: "tokenByIndex",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [
-        {
-          internalType: "address",
-          name: "owner",
-          type: "address",
-        },
-        {
-          internalType: "uint256",
-          name: "index",
-          type: "uint256",
-        },
-      ],
-      name: "tokenOfOwnerByIndex",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "tokenId",
-          type: "uint256",
-        },
-      ],
-      name: "tokenURI",
-      outputs: [
-        {
-          internalType: "string",
-          name: "",
-          type: "string",
-        },
-      ],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [],
-      name: "totalSupply",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      constant: false,
-      inputs: [
-        {
-          internalType: "address",
-          name: "from",
-          type: "address",
-        },
-        {
-          internalType: "address",
-          name: "to",
-          type: "address",
-        },
-        {
-          internalType: "uint256",
-          name: "tokenId",
-          type: "uint256",
-        },
-      ],
-      name: "transferFrom",
-      outputs: [],
-      payable: false,
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      constant: false,
-      inputs: [
-        {
-          internalType: "address payable",
-          name: "newOwner",
-          type: "address",
-        },
-      ],
-      name: "transferOwnership",
-      outputs: [],
-      payable: false,
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      constant: false,
-      inputs: [
-        {
-          internalType: "address",
-          name: "to",
-          type: "address",
-        },
-        {
-          internalType: "uint256",
-          name: "tokenId",
-          type: "uint256",
-        },
-      ],
-      name: "zapprove",
-      outputs: [],
-      payable: false,
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-  ];
-  const contractAddress = "0xbf96d1BB9483C27C04eDfe649E27032d56757D40";
+  const context = useContext(AppContext);
 
   useEffect(() => {
     // async를 사용하는 함수 따로 선언
@@ -586,20 +68,18 @@ export default function DallE() {
       const gasAmount = await myContract.methods.mintNFT(tokenURI).estimateGas({
         from: account,
         gas: 6000000,
-        // value: total_value,
       });
       const result = await myContract.methods.mintNFT(tokenURI).send({
         from: account,
         gas: gasAmount,
-        // value: total_value,
       });
       if (result != null) {
         console.log(result);
-        alert("민팅에 성공하였습니다.");
+        alert("Minting Success!");
       }
     } catch (error) {
       console.log(error);
-      alert("민팅에 실패하였습니다.");
+      alert("Minting Failed!");
     }
   };
 
@@ -608,9 +88,13 @@ export default function DallE() {
   };
 
   const handleMint = async () => {
-    setShowModal(false);
-    const tokenURI = await uploadToIpfs();
-    mint(tokenURI);
+    if (context.wallet) {
+      const tokenURI = await uploadToIpfs();
+      mint(tokenURI);
+    } else {
+      alert("Please Connect Wallet First!");
+    }
+    handleClose();
   };
 
   return (
@@ -751,7 +235,7 @@ export default function DallE() {
                             <Button
                               className="text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                               onClick={handleMint}
-                              href="/collection"
+                              // href="/collection"
                             >
                               Pay and Mint
                             </Button>
