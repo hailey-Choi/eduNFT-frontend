@@ -3,6 +3,7 @@ import { Container } from "../components/Container";
 import { useEffect, useState } from "react";
 import { contractABI, contractAddress } from "../klaytn/contract";
 import Caver from "caver-js";
+import CollectionView from "../components/CollectionView";
 
 export default function Collection() {
   const [userTokenURIs, setUserTokenURIs] = useState();
@@ -81,8 +82,8 @@ export default function Collection() {
 
   return (
     <Layout>
-      <Container>
-        <p>Show Collections Here</p>
+      <Container className="border">
+        <CollectionView />
       </Container>
     </Layout>
   );
