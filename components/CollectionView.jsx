@@ -7,7 +7,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function CollectionView() {
+export default function CollectionView({ userImages, allImages }) {
   const [selectedTab, setSelectedTab] = useState("My EduNFTs");
 
   return (
@@ -40,7 +40,11 @@ export default function CollectionView() {
           </ul>
         </div>
       </div>
-      <CollectionTable />
+      <CollectionTable
+        userImages={userImages}
+        allImages={allImages}
+        selectedTab={selectedTab}
+      />
     </div>
   );
 }
