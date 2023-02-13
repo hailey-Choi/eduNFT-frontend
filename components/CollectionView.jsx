@@ -41,8 +41,7 @@ export default function CollectionView({ userImages, allImages }) {
         </div>
       </div>
       <CollectionTable
-        userImages={userImages}
-        allImages={allImages}
+        images={selectedTab === "My EduNFTs" ? userImages : allImages}
         selectedTab={selectedTab}
       />
     </div>
