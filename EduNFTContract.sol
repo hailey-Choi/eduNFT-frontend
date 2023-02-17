@@ -1765,26 +1765,12 @@ contract EduNFT is KIP17Full, Ownable {
     }
 
     function purchaseNFT(uint256 tokenId) public payable {
-        uint price = idToMintedToken[tokenId].price;
-        address seller = idToMintedToken[tokenId].seller;
-        require(msg.value == price, "Please submit the asking price in order to complete the purchase");
-
         //update the details of the token
         idToMintedToken[tokenId].seller = msg.sender;
         idToMintedToken[tokenId].owner = msg.sender;
         idToMintedToken[tokenId].price = 0;
         idToMintedToken[tokenId].currentlyListed = false;
         _itemsSold.increment();
-
-        //approve the marketplace to sell NFTs on your behalf
-        approve(address(this), tokenId);
-        //Actually transfer the token to the new owner
         _transferFrom(address(this), msg.sender, tokenId);
-
-        //Transfer the listing fee to the marketplace creator
-        payable(owner).transfer(listPrice);
-        //Transfer the proceeds from the sale to the seller of the NFT
-        payable(seller).transfer(msg.value);
     }
-
 }
