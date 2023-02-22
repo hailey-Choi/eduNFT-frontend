@@ -1574,7 +1574,7 @@ contract EduNFT is KIP17Full, Ownable {
     }
 
     //the event emitted when a token is successfully listed
-    event TokenListedSuccess (
+    event TokenTransactionSuccess (
         uint256 indexed tokenId,
         string tokenURI,
         address owner,
@@ -1582,6 +1582,8 @@ contract EduNFT is KIP17Full, Ownable {
         uint256 price,
         bool currentlyListed
     );
+
+    event TransferKlay(address indexed sender, address indexed recipient, uint256 amount);
 
     //This mapping maps tokenId to token info and is helpful when retrieving details about a tokenId
     mapping(uint256 => MintedToken) private idToMintedToken;
@@ -1635,7 +1637,7 @@ contract EduNFT is KIP17Full, Ownable {
     }
 
     //Returns all the NFTs that the current user is owner or seller in
-    function getMyNFTs() public view returns (MintedToken[] memory) {
+    function getMyNFTs(address senderAddress) public view returns (MintedToken[] memory) {
         uint totalItemCount = _tokenIds.current();
         uint itemCount = 0;
         uint currentIndex = 0;
@@ -1643,7 +1645,7 @@ contract EduNFT is KIP17Full, Ownable {
         //Important to get a count of all the NFTs that belong to the user before we can make an array for them
         for(uint i=0; i < totalItemCount; i++)
         {
-            if(idToMintedToken[i+1].owner == msg.sender || idToMintedToken[i+1].seller == msg.sender){
+            if(idToMintedToken[i+1].owner == senderAddress || idToMintedToken[i+1].seller == senderAddress){
                 itemCount += 1;
             }
         }
@@ -1651,7 +1653,7 @@ contract EduNFT is KIP17Full, Ownable {
         //Once you have the count of relevant NFTs, create an array then store all the NFTs in it
         MintedToken[] memory items = new MintedToken[](itemCount);
         for(uint i=0; i < totalItemCount; i++) {
-            if(idToMintedToken[i+1].owner == msg.sender || idToMintedToken[i+1].seller == msg.sender) {
+            if(idToMintedToken[i+1].owner == senderAddress || idToMintedToken[i+1].seller == senderAddress) {
                 uint currentId = i+1;
                 MintedToken storage currentItem = idToMintedToken[currentId];
                 items[currentIndex] = currentItem;
@@ -1662,7 +1664,7 @@ contract EduNFT is KIP17Full, Ownable {
     }
 
     //Returns all the listed NFTs that the current user is owner or seller in
-    function getMyListedNFTs() public view returns (MintedToken[] memory) {
+    function getMyListedNFTs(address senderAddress) public view returns (MintedToken[] memory) {
         uint totalItemCount = _tokenIds.current();
         uint itemCount = 0;
         uint currentIndex = 0;
@@ -1671,7 +1673,7 @@ contract EduNFT is KIP17Full, Ownable {
         for(uint i=0; i < totalItemCount; i++)
         {
             if(idToMintedToken[i+1].currentlyListed == true){
-                if(idToMintedToken[i+1].owner == msg.sender || idToMintedToken[i+1].seller == msg.sender){
+                if(idToMintedToken[i+1].owner == senderAddress || idToMintedToken[i+1].seller == senderAddress){
                     itemCount += 1;
                 }
             }
@@ -1681,7 +1683,7 @@ contract EduNFT is KIP17Full, Ownable {
         MintedToken[] memory items = new MintedToken[](itemCount);
         for(uint i=0; i < totalItemCount; i++) {
             if(idToMintedToken[i+1].currentlyListed == true) {
-                if(idToMintedToken[i+1].owner == msg.sender || idToMintedToken[i+1].seller == msg.sender){
+                if(idToMintedToken[i+1].owner == senderAddress || idToMintedToken[i+1].seller == senderAddress){
                     uint currentId = i+1;
                     MintedToken storage currentItem = idToMintedToken[currentId];
                     items[currentIndex] = currentItem;
@@ -1707,7 +1709,6 @@ contract EduNFT is KIP17Full, Ownable {
 
     function mintNFT(string memory tokenURI)
         public
-        returns (MintedToken memory)
     {
         //Increment the tokenId counter, which is keeping track of the number of minted NFTs
         _tokenIds.increment();
@@ -1727,7 +1728,14 @@ contract EduNFT is KIP17Full, Ownable {
             false
         );
 
-        return idToMintedToken[newItemId];
+        emit TokenTransactionSuccess(
+            newItemId,
+            _tokenURIs[newItemId],
+            msg.sender,
+            msg.sender,
+            0,
+            false
+        );
     }
 
     function listNFT(uint256 tokenId, uint256 price) 
@@ -1738,10 +1746,6 @@ contract EduNFT is KIP17Full, Ownable {
 
         address tokenOwner = idToMintedToken[tokenId].owner;
         require(tokenOwner == msg.sender, "caller is not token owner");
-
-        //Update the mapping of tokenId's to Token details, useful for retrieval functions
-        // address payable ownner = address(uint256(address(this)));
-        // address payable seller = msg.sender;
 
         idToMintedToken[tokenId] = MintedToken(
             tokenId,
@@ -1754,7 +1758,7 @@ contract EduNFT is KIP17Full, Ownable {
 
         _transferFrom(msg.sender, address(this), tokenId);
         //Emit the event for successful transfer. The frontend parses this message and updates the end user
-        emit TokenListedSuccess(
+        emit TokenTransactionSuccess(
             tokenId,
             _tokenURIs[tokenId],
             address(this),
@@ -1764,8 +1768,37 @@ contract EduNFT is KIP17Full, Ownable {
         );
     }
 
-    function purchaseNFT(uint256 tokenId) public payable {
+    function transferKlay(address payable recipient, uint256 amount) private {
+        require(msg.sender.balance >= amount, "Insufficient KLAY balance for sender");
+        // transfer KLAY from sender's wallet to smart contract address
+        msg.sender.transfer(amount);
+
+        require(address(this).balance >= amount, "Insufficient KLAY balance for EduNFT");
+        // transfer KLAY from smart contract address to recipient's wallet
+        recipient.transfer(amount);
+        emit TransferKlay(msg.sender, recipient, amount);
+    }
+
+    // function setForSale(uint256 tokenId, address tokenAddress, uint256 amount) public {
+    //     IKIP7 tokenForPay = IKIP7(tokenAddress); // IKIP7.sol은 클레이튼 공식 컨트랙트 깃허브 참고하세요.
+    //     require(tokenForPay.balanceOf(msg.sender) >= amount);  // 해당 수량 보유하고있는지 확인
+    //     tokenForPay.approve(address(this), amount); // 본 컨트랙트가 transferFrom을 이용해 amount 만큼 토큰을 뺄수있도록 allowance 설정.
+    //     tokenForPay.transferFrom(msg.sender, address(this), amount);
+    //     mint(tokenId, msg.sender); // mint ABI가 mint(uint256 tokenId, address to) 인 경우
+    // }
+
+
+    function purchaseNFT(uint256 tokenId) public {
+        require(idToMintedToken[tokenId].currentlyListed == true, "You only can buy listed NFTs");
         //update the details of the token
+
+        address payable recipient = address(uint256(idToMintedToken[tokenId].seller));
+
+        msg.sender.transfer(10);
+
+        // transfer KLAY from smart contract address to recipient's wallet
+        // transferKlay(recipient, idToMintedToken[tokenId].price);
+
         idToMintedToken[tokenId].seller = msg.sender;
         idToMintedToken[tokenId].owner = msg.sender;
         idToMintedToken[tokenId].price = 0;
