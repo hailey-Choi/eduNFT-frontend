@@ -25,9 +25,11 @@ export default function CollectionTable({ metadata, selectedTab }) {
                 alt="new"
               />
               <h3 className="mt-6 text-lg font-semibold leading-8 tracking-tight text-gray-900">
-                Name
+                {data.name}
               </h3>
-              <p className="text-base leading-7 text-gray-600">Description</p>
+              <p className="text-base leading-7 text-gray-600">
+                {data.description}
+              </p>
               <Button className="p-3 text-xs mt-2">
                 {selectedTab === "My EduNFTs" ? "List for sale" : "Buy now"}
               </Button>
