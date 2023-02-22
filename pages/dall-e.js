@@ -9,6 +9,8 @@ import AppContext from "../components/AppContext";
 import Caver from "caver-js";
 import { contractABI, contractAddress } from "../klaytn/contract";
 
+// TODO : Minting button loading 중일때 disable 하기 (안하면 누른만큼 민팅됌)
+
 export default function DallE() {
   const router = useRouter();
   const data = router.query;
@@ -21,7 +23,6 @@ export default function DallE() {
   const context = useContext(AppContext);
 
   useEffect(() => {
-    // async를 사용하는 함수 따로 선언
     const fetchData = async () => {
       setLoading(true);
       try {

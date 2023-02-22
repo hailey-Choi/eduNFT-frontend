@@ -1,6 +1,8 @@
 import { Button } from "./Button";
 
-export default function CollectionTable({ images, selectedTab }) {
+const pinataEndpoint = "https://gateway.pinata.cloud/ipfs/";
+
+export default function CollectionTable({ metadata, selectedTab }) {
   return (
     <div className="bg-white mb-6">
       <div className="mx-auto max-w-2xl lg:mx-0">
@@ -14,12 +16,12 @@ export default function CollectionTable({ images, selectedTab }) {
         role="list"
         className="mx-auto mt-5 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3"
       >
-        {images ? (
-          images.map((img, i) => (
+        {metadata ? (
+          metadata.map((data, i) => (
             <li key={i}>
               <img
                 className="w-full rounded-2xl object-cover"
-                src={img}
+                src={pinataEndpoint + data.image_url.slice(7)}
                 alt="new"
               />
               <h3 className="mt-6 text-lg font-semibold leading-8 tracking-tight text-gray-900">

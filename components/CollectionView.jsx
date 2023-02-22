@@ -1,14 +1,14 @@
 import { useState } from "react";
 import CollectionTable from "./CollectionTable";
 
-const tabs = ["My EduNFTs", "All EduNFTs"];
+const tabs = ["My EduNFTs", "My EduNFTs on Listing", "All EduNFTs"];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function CollectionView({ userImages, allImages }) {
-  const [selectedTab, setSelectedTab] = useState("My EduNFTs");
+export default function CollectionView({ userMetadata, allMetadata }) {
+  const [selectedTab, setSelectedTab] = useState(tabs[0]);
 
   return (
     <div>
@@ -17,23 +17,34 @@ export default function CollectionView({ userImages, allImages }) {
           <ul className="-mb-px flex space-x-8">
             <li
               className={classNames(
-                selectedTab === "My EduNFTs"
+                selectedTab === tabs[0]
                   ? "border-blue-500 text-blue-600"
                   : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
                 "whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm cursor-default"
               )}
-              onClick={() => setSelectedTab("My EduNFTs")}
+              onClick={() => setSelectedTab(tabs[0])}
             >
               My EduNFTs
             </li>
             <li
               className={classNames(
-                selectedTab === "All EduNFTs"
+                selectedTab === tabs[1]
                   ? "border-blue-500 text-blue-600"
                   : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
                 "whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm cursor-default"
               )}
-              onClick={() => setSelectedTab("All EduNFTs")}
+              onClick={() => setSelectedTab(tabs[1])}
+            >
+              My EduNFTs on Listing
+            </li>
+            <li
+              className={classNames(
+                selectedTab === tabs[2]
+                  ? "border-blue-500 text-blue-600"
+                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
+                "whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm cursor-default"
+              )}
+              onClick={() => setSelectedTab(tabs[2])}
             >
               All EduNFTs
             </li>
@@ -41,7 +52,7 @@ export default function CollectionView({ userImages, allImages }) {
         </div>
       </div>
       <CollectionTable
-        images={selectedTab === "My EduNFTs" ? userImages : allImages}
+        metadata={selectedTab === tabs[0] ? userMetadata : allMetadata}
         selectedTab={selectedTab}
       />
     </div>

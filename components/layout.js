@@ -68,7 +68,7 @@ export default function Layout({ children }) {
                 {connected ? "Disconnect Wallet" : "Connect Wallet"}
               </Button>
             </div>
-            {context.wallet ? (
+            {context?.wallet ? (
               <div> Address : {context.wallet.slice(0, 12)} ...</div>
             ) : (
               <></>
