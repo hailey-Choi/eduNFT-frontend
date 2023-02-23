@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 
 import Caver from "caver-js";
 import { Button } from "./Button";
@@ -8,8 +8,16 @@ import AppContext from "./AppContext";
 
 export default function Layout({ children }) {
   const [connected, setConnected] = useState(false);
+  const [address, setAddress] = useState(null);
 
-  const context = useContext(AppContext);
+  useEffect(() => {
+    const provider = window["klaytn"];
+    const account = provider.selectedAddress;
+    if (account) {
+      setConnected(true);
+      setAddress(account);
+    }
+  }, []);
 
   const connectWallet = async () => {
     if (!klaytn.isKaikas) {
@@ -28,15 +36,16 @@ export default function Layout({ children }) {
       return;
     }
 
+    console.log("accounts: ", accounts);
     if (accounts) {
-      context.setWallet(accounts[0]);
       setConnected(true);
+      setAddress(accounts[0]);
     }
   };
 
   const disconnectWallet = async () => {
-    context.setWallet(null);
     setConnected(false);
+    setAddress(null);
   };
 
   return (
@@ -68,11 +77,7 @@ export default function Layout({ children }) {
                 {connected ? "Disconnect Wallet" : "Connect Wallet"}
               </Button>
             </div>
-            {context?.wallet ? (
-              <div> Address : {context.wallet.slice(0, 12)} ...</div>
-            ) : (
-              <></>
-            )}
+            {address ? <div> Address : {address.slice(0, 12)} ...</div> : <></>}
           </div>
         </Container>
       </header>

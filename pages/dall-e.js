@@ -1,13 +1,13 @@
 import Layout from "../components/layout";
 import axios from "axios";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { ProgressBar } from "react-loader-spinner";
 import { Container } from "../components/Container";
 import { useRouter } from "next/router";
 import { Button } from "../components/Button";
-import AppContext from "../components/AppContext";
 import Caver from "caver-js";
 import { contractABI, contractAddress } from "../klaytn/contract";
+import { redirect } from "next/navigation";
 
 // TODO : Minting button loading 중일때 disable 하기 (안하면 누른만큼 민팅됌)
 
@@ -20,7 +20,6 @@ export default function DallE() {
   const [nftDesc, setNftDesc] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const context = useContext(AppContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,28 +58,37 @@ export default function DallE() {
     }
   };
 
-  const mint = async (tokenURI) => {
+  const mint = async () => {
     const provider = window["klaytn"];
     const caver = new Caver(provider);
     const account = provider.selectedAddress;
     const myContract = new caver.klay.Contract(contractABI, contractAddress);
 
-    try {
-      const gasAmount = await myContract.methods.mintNFT(tokenURI).estimateGas({
-        from: account,
-        gas: 6000000,
-      });
-      const result = await myContract.methods.mintNFT(tokenURI).send({
-        from: account,
-        gas: gasAmount,
-      });
-      if (result != null) {
-        console.log(result);
-        alert("Minting Success!");
+    if (!account) {
+      alert("Please Connect Your Wallet First!");
+    } else {
+      setLoading(true);
+      const tokenURI = await uploadToIpfs();
+      try {
+        const gasAmount = await myContract.methods
+          .mintNFT(tokenURI)
+          .estimateGas({
+            from: account,
+            gas: 6000000,
+          });
+        const result = await myContract.methods.mintNFT(tokenURI).send({
+          from: account,
+          gas: gasAmount,
+        });
+        if (result != null) {
+          console.log(result);
+          router.push("/collection");
+        }
+      } catch (error) {
+        console.log(error);
+        alert("Minting Failed!");
       }
-    } catch (error) {
-      console.log(error);
-      alert("Minting Failed!");
+      setLoading(false);
     }
   };
 
@@ -89,12 +97,7 @@ export default function DallE() {
   };
 
   const handleMint = async () => {
-    if (context.wallet) {
-      const tokenURI = await uploadToIpfs();
-      mint(tokenURI);
-    } else {
-      alert("Please Connect Wallet First!");
-    }
+    mint();
     handleClose();
   };
 

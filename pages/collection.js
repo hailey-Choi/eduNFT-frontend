@@ -35,7 +35,11 @@ export default function Collection() {
           });
         await tokens.map((token) => {
           try {
-            const url = fetch(pinataEndpoint + token.tokenURI.slice(7))
+            const url = fetch(pinataEndpoint + token.tokenURI.slice(7), {
+              headers: {
+                Accept: "text/plain",
+              },
+            })
               .then((response) => response.json())
               .then((metadata) => {
                 setUserTokenMetadata((arr) => [...arr, metadata]);
@@ -60,7 +64,11 @@ export default function Collection() {
           });
         await tokens.map((token) => {
           try {
-            const url = fetch(pinataEndpoint + token.tokenURI.slice(7))
+            const url = fetch(pinataEndpoint + token.tokenURI.slice(7), {
+              headers: {
+                Accept: "text/plain",
+              },
+            })
               .then((response) => response.json())
               .then((metadata) => {
                 setUserListedTokenMetadata((arr) => [...arr, metadata]);
@@ -85,7 +93,11 @@ export default function Collection() {
           });
         await tokens.map((token) => {
           try {
-            const url = fetch(pinataEndpoint + token.tokenURI.slice(7))
+            const url = fetch(pinataEndpoint + token.tokenURI.slice(7), {
+              headers: {
+                Accept: "text/plain",
+              },
+            })
               .then((response) => response.json())
               .then((metadata) => {
                 setAllTokenMetadata((arr) => [...arr, metadata]);
