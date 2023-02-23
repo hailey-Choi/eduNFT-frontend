@@ -8,6 +8,8 @@ const tabs = ["My EduNFTs", "My EduNFTs on Listing", "All EduNFTs"];
 
 export default function CollectionTable({ metadata, selectedTab }) {
   const [account, setAccount] = useState(null);
+  const [price, setPrice] = useState(null);
+  const [nftListing, setNftListing] = useState(null);
 
   useEffect(() => {
     const provider = window["klaytn"];
@@ -17,12 +19,10 @@ export default function CollectionTable({ metadata, selectedTab }) {
   }, []);
 
   const handleClick = (data) => {
-    if (selectedTab === tabs[0]) {
-      listNFT(data);
-    }
+    setNftListing(data.tokenId);
   };
 
-  const listNFT = async (data) => {
+  const listNFT = async (tokenId, price) => {
     const provider = window["klaytn"];
     const caver = new Caver(provider);
     const account = provider.selectedAddress;
@@ -30,12 +30,12 @@ export default function CollectionTable({ metadata, selectedTab }) {
 
     try {
       const gasAmount = await myContract.methods
-        .listNFT(data.tokenId, 3)
+        .listNFT(tokenId, price)
         .estimateGas({
           from: account,
           gas: 6000000,
         });
-      const result = await myContract.methods.listNFT(data.tokenId, 3).send({
+      const result = await myContract.methods.listNFT(tokenId, price).send({
         from: account,
         gas: gasAmount,
       });
@@ -46,6 +46,9 @@ export default function CollectionTable({ metadata, selectedTab }) {
       console.log(error);
       alert("Listing Failed!");
     }
+
+    setNftListing(null);
+    window.location.reload(true);
   };
 
   return (
@@ -77,38 +80,95 @@ export default function CollectionTable({ metadata, selectedTab }) {
               <p className="text-base leading-7 text-gray-600">
                 {data.description}
               </p>
-              <div className="flex flex-wrap  items-center justify-center sm:justify-between lg:flex-nowrap mr-4">
-                <Button
-                  className={
-                    (selectedTab === tabs[0] && data.currentlyListed == true) ||
-                    (selectedTab === tabs[2] &&
-                      data.seller.toUpperCase() == account.toUpperCase())
-                      ? "p-3 text-xs mt-2 bg-gray-400 hover:bg-gray-400 active:text-white"
-                      : "p-3 text-xs mt-2 "
-                  }
-                  onClick={() => handleClick(data)}
-                  disabled={
-                    (selectedTab === tabs[0] && data.currentlyListed == true) ||
-                    (selectedTab === tabs[2] &&
-                      data.seller.toUpperCase() == account.toUpperCase())
-                  }
-                >
-                  {selectedTab === tabs[0] && data.currentlyListed == false
-                    ? "List for sale"
-                    : selectedTab === tabs[0] && data.currentlyListed == true
-                    ? "On Listing"
-                    : selectedTab === tabs[1]
-                    ? "Cancel Listing"
-                    : "Buy now"}
-                </Button>
-                {data.currentlyListed == true ? (
-                  <p className="leading-7 text-md font-semibold ">
-                    {data.price} KLAY
-                  </p>
-                ) : (
-                  <></>
-                )}
-              </div>
+
+              {nftListing == data.tokenId ? (
+                <div className="flex flex-wrap items-center justify-center sm:justify-between lg:flex-nowrap mr-3">
+                  <div className="relative mt-1 rounded-md shadow-sm">
+                    <input
+                      type="text"
+                      name="price"
+                      id="price"
+                      className="block w-full rounded-md border-gray-300 pr-12 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      placeholder="0"
+                      aria-describedby="price-currency"
+                      onChange={(e) => {
+                        setPrice(e.target.value);
+                      }}
+                    />
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                      <span
+                        className="text-gray-500 sm:text-sm"
+                        id="price-currency"
+                      >
+                        KLAY
+                      </span>
+                    </div>
+                  </div>
+                  <Button
+                    className={
+                      (selectedTab === tabs[0] &&
+                        data.currentlyListed == true) ||
+                      (selectedTab === tabs[2] &&
+                        data.seller.toUpperCase() == account.toUpperCase())
+                        ? "p-3 text-xs mt-2 bg-gray-400 hover:bg-gray-400 active:text-white"
+                        : "p-3 text-xs mt-2 "
+                    }
+                    onClick={() => listNFT(data.tokenId, price)}
+                    disabled={
+                      (selectedTab === tabs[0] &&
+                        data.currentlyListed == true) ||
+                      (selectedTab === tabs[2] &&
+                        data.seller.toUpperCase() == account.toUpperCase())
+                    }
+                  >
+                    {selectedTab === tabs[0] && data.currentlyListed == false
+                      ? "List for sale"
+                      : selectedTab === tabs[0] && data.currentlyListed == true
+                      ? "On Listing"
+                      : selectedTab === tabs[1]
+                      ? "Cancel Listing"
+                      : "Buy now"}
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex flex-wrap items-center justify-center sm:justify-between lg:flex-nowrap mr-3">
+                  <Button
+                    className={
+                      (selectedTab === tabs[0] &&
+                        data.currentlyListed == true) ||
+                      (selectedTab === tabs[2] &&
+                        data.seller.toUpperCase() == account.toUpperCase())
+                        ? "p-3 text-xs mt-2 bg-gray-400 hover:bg-gray-400 active:text-white"
+                        : "p-3 text-xs mt-2 "
+                    }
+                    onClick={() => handleClick(data)}
+                    disabled={
+                      (selectedTab === tabs[0] &&
+                        data.currentlyListed == true) ||
+                      (selectedTab === tabs[2] &&
+                        data.seller.toUpperCase() == account.toUpperCase())
+                    }
+                  >
+                    {selectedTab === tabs[0] && data.currentlyListed == false
+                      ? "List for sale"
+                      : selectedTab === tabs[0] && data.currentlyListed == true
+                      ? "On Listing"
+                      : selectedTab === tabs[1]
+                      ? "Cancel Listing"
+                      : selectedTab === tabs[2] &&
+                        data.seller.toUpperCase() == account.toUpperCase()
+                      ? "Owned"
+                      : "Buy now"}
+                  </Button>
+                  {data.currentlyListed == true ? (
+                    <p className="leading-7 text-md font-semibold ">
+                      {data.price} KLAY
+                    </p>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+              )}
             </li>
           ))
         ) : (
