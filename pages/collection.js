@@ -35,13 +35,19 @@ export default function Collection() {
           });
         await tokens.map((token) => {
           try {
-            const url = fetch(pinataEndpoint + token.tokenURI.slice(7), {
+            fetch(pinataEndpoint + token.tokenURI.slice(7), {
               headers: {
                 Accept: "text/plain",
               },
             })
               .then((response) => response.json())
               .then((metadata) => {
+                metadata.currentlyListed = token.currentlyListed;
+                metadata.owner = token.owner;
+                metadata.price = token.price;
+                metadata.seller = token.seller;
+                metadata.tokenId = token.tokenId;
+                metadata.tokenURI = token.tokenURI;
                 setUserTokenMetadata((arr) => [...arr, metadata]);
               });
           } catch (e) {
@@ -64,13 +70,19 @@ export default function Collection() {
           });
         await tokens.map((token) => {
           try {
-            const url = fetch(pinataEndpoint + token.tokenURI.slice(7), {
+            fetch(pinataEndpoint + token.tokenURI.slice(7), {
               headers: {
                 Accept: "text/plain",
               },
             })
               .then((response) => response.json())
               .then((metadata) => {
+                metadata.currentlyListed = token.currentlyListed;
+                metadata.owner = token.owner;
+                metadata.price = token.price;
+                metadata.seller = token.seller;
+                metadata.tokenId = token.tokenId;
+                metadata.tokenURI = token.tokenURI;
                 setUserListedTokenMetadata((arr) => [...arr, metadata]);
               });
           } catch (e) {
@@ -93,13 +105,19 @@ export default function Collection() {
           });
         await tokens.map((token) => {
           try {
-            const url = fetch(pinataEndpoint + token.tokenURI.slice(7), {
+            fetch(pinataEndpoint + token.tokenURI.slice(7), {
               headers: {
                 Accept: "text/plain",
               },
             })
               .then((response) => response.json())
               .then((metadata) => {
+                metadata.currentlyListed = token.currentlyListed;
+                metadata.owner = token.owner;
+                metadata.price = token.price;
+                metadata.seller = token.seller;
+                metadata.tokenId = token.tokenId;
+                metadata.tokenURI = token.tokenURI;
                 setAllTokenMetadata((arr) => [...arr, metadata]);
               });
           } catch (e) {
