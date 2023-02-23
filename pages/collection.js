@@ -9,6 +9,7 @@ const pinataEndpoint = "https://gateway.pinata.cloud/ipfs/";
 
 export default function Collection() {
   const [userTokenMetadata, setUserTokenMetadata] = useState([]);
+  const [userListedTokenMetadata, setUserListedTokenMetadata] = useState([]);
   const [allTokenMetadata, setAllTokenMetadata] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -46,6 +47,31 @@ export default function Collection() {
         await setLoading(false);
       };
 
+      const getUserListedNFTs = async () => {
+        setLoading(true);
+        const tokens = await myContract.methods
+          .getMyListedNFTs(account)
+          .call()
+          .then(function (result) {
+            return result;
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        await tokens.map((token) => {
+          try {
+            const url = fetch(pinataEndpoint + token.tokenURI.slice(7))
+              .then((response) => response.json())
+              .then((metadata) => {
+                setUserListedTokenMetadata((arr) => [...arr, metadata]);
+              });
+          } catch (e) {
+            console.log(e);
+          }
+        });
+        await setLoading(false);
+      };
+
       const getAllNFTs = async () => {
         setLoading(true);
         const tokens = await myContract.methods
@@ -72,6 +98,7 @@ export default function Collection() {
       };
 
       getUserNFTs();
+      getUserListedNFTs();
       getAllNFTs();
     } else {
       alert("Connect wallet first!");
@@ -79,6 +106,7 @@ export default function Collection() {
   }, []);
 
   console.log("UserTokenMetadata", userTokenMetadata);
+  console.log("UserListedTokenMetadata: ", userListedTokenMetadata);
   console.log("AllTokenMetadata", allTokenMetadata);
 
   return (
@@ -97,6 +125,7 @@ export default function Collection() {
         ) : (
           <CollectionView
             userMetadata={userTokenMetadata}
+            userListedMetadata={userListedTokenMetadata}
             allMetadata={allTokenMetadata}
           />
         )}

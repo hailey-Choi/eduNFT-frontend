@@ -7,7 +7,11 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function CollectionView({ userMetadata, allMetadata }) {
+export default function CollectionView({
+  userMetadata,
+  userListedMetadata,
+  allMetadata,
+}) {
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
 
   return (
@@ -52,7 +56,13 @@ export default function CollectionView({ userMetadata, allMetadata }) {
         </div>
       </div>
       <CollectionTable
-        metadata={selectedTab === tabs[0] ? userMetadata : allMetadata}
+        metadata={
+          selectedTab == tabs[0]
+            ? userMetadata
+            : selectedTab == tabs[1]
+            ? userListedMetadata
+            : allMetadata
+        }
         selectedTab={selectedTab}
       />
     </div>

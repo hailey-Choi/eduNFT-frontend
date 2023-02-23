@@ -1,14 +1,17 @@
 import { Button } from "./Button";
 
 const pinataEndpoint = "https://gateway.pinata.cloud/ipfs/";
+const tabs = ["My EduNFTs", "My EduNFTs on Listing", "All EduNFTs"];
 
 export default function CollectionTable({ metadata, selectedTab }) {
   return (
     <div className="bg-white mb-6">
       <div className="mx-auto max-w-2xl lg:mx-0">
         <p className="mt-6 text-lg text-gray-600 font-semibold">
-          {selectedTab === "My EduNFTs"
+          {selectedTab === tabs[0]
             ? "EduNFTs owned by you"
+            : selectedTab === tabs[1]
+            ? "My EduNFTs on Listing"
             : "All NFTs in EduNFT Collection"}
         </p>
       </div>
@@ -31,7 +34,11 @@ export default function CollectionTable({ metadata, selectedTab }) {
                 {data.description}
               </p>
               <Button className="p-3 text-xs mt-2">
-                {selectedTab === "My EduNFTs" ? "List for sale" : "Buy now"}
+                {selectedTab === tabs[0]
+                  ? "List for sale"
+                  : selectedTab === tabs[1]
+                  ? "Cancel Listing"
+                  : "Buy now"}
               </Button>
             </li>
           ))
