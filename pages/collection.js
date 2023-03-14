@@ -7,6 +7,11 @@ import CollectionView from "../components/CollectionView";
 import { ProgressBar } from "react-loader-spinner";
 const pinataEndpoint = "https://gateway.pinata.cloud/ipfs/";
 
+/**
+ * TODO: 민팅하고 나서 콜렉션 페이지에 이미지 바로 로딩안됌 (i think metadata loading issue)
+ *  사진 보일때까지 설명이나 로딩중 추가하기
+ */
+
 export default function Collection() {
   const [userTokenMetadata, setUserTokenMetadata] = useState([]);
   const [userListedTokenMetadata, setUserListedTokenMetadata] = useState([]);

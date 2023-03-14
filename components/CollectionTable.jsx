@@ -19,7 +19,14 @@ export default function CollectionTable({ metadata, selectedTab }) {
   }, []);
 
   const handleClick = (data) => {
-    setNftListing(data.tokenId);
+    // List for sale clicked, enable users to set the price
+    if (selectedTab === tabs[0] && data.currentlyListed == false) {
+      setNftListing(data.tokenId);
+    }
+    // cancle lit clicked, call unlistNFT function from the smart contract
+    if (selectedTab === tabs[1]) {
+      unlistNFT(data.tokenId);
+    }
   };
 
   const listNFT = async (tokenId, price) => {
@@ -48,6 +55,32 @@ export default function CollectionTable({ metadata, selectedTab }) {
     }
 
     setNftListing(null);
+    window.location.reload(true);
+  };
+
+  const unlistNFT = async (tokenId) => {
+    const provider = window["klaytn"];
+    const caver = new Caver(provider);
+    const account = provider.selectedAddress;
+    const myContract = new caver.klay.Contract(contractABI, contractAddress);
+    try {
+      const gasAmount = await myContract.methods
+        .unlistNFT(tokenId)
+        .estimateGas({
+          from: account,
+          gas: 6000000,
+        });
+      const result = await myContract.methods.unlistNFT(tokenId).send({
+        from: account,
+        gas: gasAmount,
+      });
+      if (result != null) {
+        console.log(result);
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Cancle Listing Failed!");
+    }
     window.location.reload(true);
   };
 
@@ -88,7 +121,7 @@ export default function CollectionTable({ metadata, selectedTab }) {
                       type="text"
                       name="price"
                       id="price"
-                      className="block w-full rounded-md border-gray-300 pr-12 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      className="block w-full rounded-md border-gray-300 pr-5 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                       placeholder="0"
                       aria-describedby="price-currency"
                       onChange={(e) => {
@@ -105,29 +138,16 @@ export default function CollectionTable({ metadata, selectedTab }) {
                     </div>
                   </div>
                   <Button
-                    className={
-                      (selectedTab === tabs[0] &&
-                        data.currentlyListed == true) ||
-                      (selectedTab === tabs[2] &&
-                        data.seller.toUpperCase() == account.toUpperCase())
-                        ? "p-3 text-xs mt-2 bg-gray-400 hover:bg-gray-400 active:text-white"
-                        : "p-3 text-xs mt-2 "
-                    }
+                    className={"p-3 text-xs mt-2 ml-2"}
                     onClick={() => listNFT(data.tokenId, price)}
-                    disabled={
-                      (selectedTab === tabs[0] &&
-                        data.currentlyListed == true) ||
-                      (selectedTab === tabs[2] &&
-                        data.seller.toUpperCase() == account.toUpperCase())
-                    }
                   >
-                    {selectedTab === tabs[0] && data.currentlyListed == false
-                      ? "List for sale"
-                      : selectedTab === tabs[0] && data.currentlyListed == true
-                      ? "On Listing"
-                      : selectedTab === tabs[1]
-                      ? "Cancel Listing"
-                      : "Buy now"}
+                    List for sale
+                  </Button>
+                  <Button
+                    className={"p-3 text-xs mt-2 "}
+                    onClick={() => setNftListing(null)}
+                  >
+                    Cancel
                   </Button>
                 </div>
               ) : (

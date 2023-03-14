@@ -1,4 +1,4 @@
-export const contractAddress = "0xEC01387a05849E97AAd245AB611C9423Dd9BA6Cd";
+export const contractAddress = "0xc4a4D5c69FD4F50C72949CE64baF78B861a00978";
 export const contractABI = [
   {
     inputs: [],
@@ -141,6 +141,31 @@ export const contractABI = [
       },
     ],
     name: "Transfer",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "recipient",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "TransferKlay",
     type: "event",
   },
   {
@@ -629,21 +654,6 @@ export const contractABI = [
   },
   {
     constant: false,
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "purchaseNFT",
-    outputs: [],
-    payable: true,
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    constant: false,
     inputs: [],
     name: "renounceOwnership",
     outputs: [],
@@ -901,6 +911,21 @@ export const contractABI = [
       },
     ],
     name: "transferOwnership",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "unlistNFT",
     outputs: [],
     payable: false,
     stateMutability: "nonpayable",
