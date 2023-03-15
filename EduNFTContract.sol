@@ -1791,42 +1791,29 @@ contract EduNFT is KIP17Full, Ownable {
         );
     }
 
-    function transferKlay(address payable recipient, uint256 amount) private {
-        require(msg.sender.balance >= amount, "Insufficient KLAY balance for sender");
-        // transfer KLAY from sender's wallet to smart contract address
-        msg.sender.transfer(amount);
+    function transferKlay(address payable recipient) private {
+        require(address(this).balance >= msg.value, "Insufficient KLAY balance for EduNFT");
 
-        require(address(this).balance >= amount, "Insufficient KLAY balance for EduNFT"); 
         // transfer KLAY from smart contract address to recipient's wallet
-        recipient.transfer(amount);
-        emit TransferKlay(msg.sender, recipient, amount);
+        recipient.transfer(msg.value);
+        emit TransferKlay(msg.sender, recipient, msg.value);
     }
 
-    // function setForSale(uint256 tokenId, address tokenAddress, uint256 amount) public {
-    //     IKIP7 tokenForPay = IKIP7(tokenAddress); // IKIP7.sol은 클레이튼 공식 컨트랙트 깃허브 참고하세요.
-    //     require(tokenForPay.balanceOf(msg.sender) >= amount);  // 해당 수량 보유하고있는지 확인
-    //     tokenForPay.approve(address(this), amount); // 본 컨트랙트가 transferFrom을 이용해 amount 만큼 토큰을 뺄수있도록 allowance 설정.
-    //     tokenForPay.transferFrom(msg.sender, address(this), amount);
-    //     mint(tokenId, msg.sender); // mint ABI가 mint(uint256 tokenId, address to) 인 경우
-    // }
 
+    function purchaseNFT(uint256 tokenId) public payable {
+        require(idToMintedToken[tokenId].currentlyListed == true, "You only can buy listed NFTs");
+        require(msg.value >= idToMintedToken[tokenId].price, "Insufficient KLAY from buyer");
 
-    // function purchaseNFT(uint256 tokenId) public {
-    //     require(idToMintedToken[tokenId].currentlyListed == true, "You only can buy listed NFTs");
-    //     //update the details of the token
+        //update the details of the token
 
-    //     address payable recipient = address(uint256(idToMintedToken[tokenId].seller));
+        address payable recipient = address(uint256(idToMintedToken[tokenId].seller));
+        transferKlay(recipient);
 
-    //     msg.sender.transfer(10);
-
-    //     // transfer KLAY from smart contract address to recipient's wallet
-    //     // transferKlay(recipient, idToMintedToken[tokenId].price);
-
-    //     idToMintedToken[tokenId].seller = msg.sender;
-    //     idToMintedToken[tokenId].owner = msg.sender;
-    //     idToMintedToken[tokenId].price = 0;
-    //     idToMintedToken[tokenId].currentlyListed = false;
-    //     _itemsSold.increment();
-    //     _transferFrom(address(this), msg.sender, tokenId);
-    // }
+        idToMintedToken[tokenId].seller = msg.sender;
+        idToMintedToken[tokenId].owner = msg.sender;
+        idToMintedToken[tokenId].price = 0;
+        idToMintedToken[tokenId].currentlyListed = false;
+        _itemsSold.increment();
+        _transferFrom(address(this), msg.sender, tokenId);
+    }
 }
