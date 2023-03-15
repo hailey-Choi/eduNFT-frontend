@@ -1058,6 +1058,383 @@ contract KIP17Enumerable is KIP13, KIP17, IKIP17Enumerable {
 }
 
 /**
+ * @dev Interface of the KIP7 standard as defined in the KIP. Does not include
+ * the optional functions; to access them see `KIP7Metadata`.
+ * See http://kips.klaytn.com/KIPs/kip-7-fungible_token
+ */
+contract IKIP7 is IKIP13 {
+    /**
+     * @dev Returns the amount of tokens in existence.
+     */
+    function totalSupply() external view returns (uint256);
+
+    /**
+     * @dev Returns the amount of tokens owned by `account`.
+     */
+    function balanceOf(address account) external view returns (uint256);
+
+    /**
+     * @dev Moves `amount` tokens from the caller's account to `recipient`.
+     *
+     * Returns a boolean value indicating whether the operation succeeded.
+     *
+     * Emits a `Transfer` event.
+     */
+    function transfer(address recipient, uint256 amount) external returns (bool);
+
+    /**
+     * @dev Returns the remaining number of tokens that `spender` will be
+     * allowed to spend on behalf of `owner` through `transferFrom`. This is
+     * zero by default.
+     *
+     * This value changes when `approve` or `transferFrom` are called.
+     */
+    function allowance(address owner, address spender) external view returns (uint256);
+
+    /**
+     * @dev Sets `amount` as the allowance of `spender` over the caller's tokens.
+     *
+     * Returns a boolean value indicating whether the operation succeeded.
+     *
+     * > Beware that changing an allowance with this method brings the risk
+     * that someone may use both the old and the new allowance by unfortunate
+     * transaction ordering. One possible solution to mitigate this race
+     * condition is to first reduce the spender's allowance to 0 and set the
+     * desired value afterwards:
+     * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
+     *
+     * Emits an `Approval` event.
+     */
+    function approve(address spender, uint256 amount) external returns (bool);
+
+    /**
+     * @dev Moves `amount` tokens from `sender` to `recipient` using the
+     * allowance mechanism. `amount` is then deducted from the caller's
+     * allowance.
+     *
+     * Returns a boolean value indicating whether the operation succeeded.
+     *
+     * Emits a `Transfer` event.
+     */
+    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
+
+    /**
+    * @dev Moves `amount` tokens from the caller's account to `recipient`.
+    */
+    function safeTransfer(address recipient, uint256 amount, bytes memory data) public;
+
+    /**
+    * @dev  Moves `amount` tokens from the caller's account to `recipient`.
+    */
+    function safeTransfer(address recipient, uint256 amount) public;
+
+    /**
+    * @dev Moves `amount` tokens from `sender` to `recipient` using the allowance mechanism.
+    * `amount` is then deducted from the caller's allowance.
+    */
+    function safeTransferFrom(address sender, address recipient, uint256 amount, bytes memory data) public;
+
+    /**
+    * @dev Moves `amount` tokens from `sender` to `recipient` using the allowance mechanism.
+    * `amount` is then deducted from the caller's allowance.
+    */
+    function safeTransferFrom(address sender, address recipient, uint256 amount) public;
+
+    /**
+     * @dev Emitted when `value` tokens are moved from one account (`from`) to
+     * another (`to`).
+     *
+     * Note that `value` may be zero.
+     */
+    event Transfer(address indexed from, address indexed to, uint256 value);
+
+    /**
+     * @dev Emitted when the allowance of a `spender` for an `owner` is set by
+     * a call to `approve`. `value` is the new allowance.
+     */
+    event Approval(address indexed owner, address indexed spender, uint256 value);
+}
+
+/**
+ * @title KIP-7 Fungible Token Standard, optional wallet interface
+ * @dev Note: the KIP-13 identifier for this interface is 0x9d188c22.
+ * see http://kips.klaytn.com/KIPs/kip-7-fungible_token
+ */
+contract IKIP7Receiver {
+    /**
+     * @notice Handle the receipt of KIP-7 token
+     * @dev The KIP-7 smart contract calls this function on the recipient
+     *  after a `safeTransfer`. This function MAY throw to revert and reject the
+     *  transfer. Return of other than the magic value MUST result in the
+     *  transaction being reverted.
+     *  Note: the contract address is always the message sender.
+     * @param _operator The address which called `safeTransferFrom` function
+     * @param _from The address which previously owned the token
+     * @param _amount The token amount which is being transferred.
+     * @param _data Additional data with no specified format
+     * @return `bytes4(keccak256("onKIP7Received(address,address,uint256,bytes)"))`
+     *  unless throwing
+     */
+    function onKIP7Received(address _operator, address _from, uint256 _amount, bytes memory _data) public returns (bytes4);
+}
+
+/**
+ * @dev Implementation of the `IKIP7` interface.
+ *
+ * This implementation is agnostic to the way tokens are created. This means
+ * that a supply mechanism has to be added in a derived contract using `_mint`.
+ * For a generic mechanism see `KIP7Mintable`.
+ *
+ * We have followed general OpenZeppelin guidelines: functions revert instead
+ * of returning `false` on failure. This behavior is nonetheless conventional
+ * and does not conflict with the expectations of KIP7 applications.
+ *
+ * Additionally, an `Approval` event is emitted on calls to `transferFrom`.
+ * This allows applications to reconstruct the allowance for all accounts just
+ * by listening to said events. Other implementations of the KIP may not emit
+ * these events, as it isn't required by the specification.
+ *
+ * See http://kips.klaytn.com/KIPs/kip-7-fungible_token
+ */
+contract KIP7 is KIP13, IKIP7 {
+    using SafeMath for uint256;
+    using Address for address;
+
+    // Equals to `bytes4(keccak256("onKIP7Received(address,address,uint256,bytes)"))`
+    // which can be also obtained as `IKIP7Receiver(0).onKIP7Received.selector`
+    bytes4 private constant _KIP7_RECEIVED = 0x9d188c22;
+
+    mapping (address => uint256) private _balances;
+
+    mapping (address => mapping (address => uint256)) private _allowances;
+
+    uint256 private _totalSupply;
+
+    /*
+     *     bytes4(keccak256('totalSupply()')) == 0x18160ddd
+     *     bytes4(keccak256('balanceOf(address)')) == 0x70a08231
+     *     bytes4(keccak256('transfer(address,uint256)')) == 0xa9059cbb
+     *     bytes4(keccak256('allowance(address,address)')) == 0xdd62ed3e
+     *     bytes4(keccak256('approve(address,uint256)')) == 0x095ea7b3
+     *     bytes4(keccak256('transferFrom(address,address,uint256)')) == 0x23b872dd
+     *     bytes4(keccak256("safeTransfer(address,uint256)")) == 0x423f6cef
+     *     bytes4(keccak256("safeTransfer(address,uint256,bytes)")) == 0xeb795549
+     *     bytes4(keccak256("safeTransferFrom(address,address,uint256)")) == 0x42842e0e
+     *     bytes4(keccak256("safeTransferFrom(address,address,uint256,bytes)")) == 0xb88d4fde
+     *
+     *     => 0x18160ddd ^ 0x70a08231 ^ 0xa9059cbb ^ 0xdd62ed3e ^ 0x095ea7b3 ^ 0x23b872dd ^ 0x423f6cef ^ 0xeb795549 ^ 0x42842e0e ^ 0xb88d4fde == 0x65787371
+     */
+    bytes4 private constant _INTERFACE_ID_KIP7 = 0x65787371;
+
+    constructor () public {
+        // register the supported interfaces to conform to KIP7 via KIP13
+        _registerInterface(_INTERFACE_ID_KIP7);
+    }
+
+    /**
+     * @dev See `IKIP7.totalSupply`.
+     */
+    function totalSupply() public view returns (uint256) {
+        return _totalSupply;
+    }
+
+    /**
+     * @dev See `IKIP7.balanceOf`.
+     */
+    function balanceOf(address account) public view returns (uint256) {
+        return _balances[account];
+    }
+
+    /**
+     * @dev See `IKIP7.transfer`.
+     *
+     * Requirements:
+     *
+     * - `recipient` cannot be the zero address.
+     * - the caller must have a balance of at least `amount`.
+     */
+    function transfer(address recipient, uint256 amount) public returns (bool) {
+        _transfer(msg.sender, recipient, amount);
+        return true;
+    }
+
+    /**
+     * @dev See `IKIP7.allowance`.
+     */
+    function allowance(address owner, address spender) public view returns (uint256) {
+        return _allowances[owner][spender];
+    }
+
+    /**
+     * @dev See `IKIP7.approve`.
+     *
+     * Requirements:
+     *
+     * - `spender` cannot be the zero address.
+     */
+    function approve(address spender, uint256 value) public returns (bool) {
+        _approve(msg.sender, spender, value);
+        return true;
+    }
+
+    /**
+     * @dev See `IKIP7.transferFrom`.
+     *
+     * Emits an `Approval` event indicating the updated allowance. This is not
+     * required by the KIP. See the note at the beginning of `KIP7`;
+     *
+     * Requirements:
+     * - `sender` and `recipient` cannot be the zero address.
+     * - `sender` must have a balance of at least `value`.
+     * - the caller must have allowance for `sender`'s tokens of at least
+     * `amount`.
+     */
+    function transferFrom(address sender, address recipient, uint256 amount) public returns (bool) {
+        _transfer(sender, recipient, amount);
+        _approve(sender, msg.sender, _allowances[sender][msg.sender].sub(amount));
+        return true;
+    }
+
+    /**
+    * @dev  Moves `amount` tokens from the caller's account to `recipient`.
+    */
+    function safeTransfer(address recipient, uint256 amount) public {
+        safeTransfer(recipient, amount, "");
+    }
+
+    /**
+    * @dev Moves `amount` tokens from the caller's account to `recipient`.
+    */
+    function safeTransfer(address recipient, uint256 amount, bytes memory data) public {
+        transfer(recipient, amount);
+        require(_checkOnKIP7Received(msg.sender, recipient, amount, data), "KIP7: transfer to non KIP7Receiver implementer");
+    }
+
+    /**
+    * @dev Moves `amount` tokens from `sender` to `recipient` using the allowance mechanism.
+    * `amount` is then deducted from the caller's allowance.
+    */
+    function safeTransferFrom(address sender, address recipient, uint256 amount) public {
+        safeTransferFrom(sender, recipient, amount, "");
+    }
+
+    /**
+    * @dev Moves `amount` tokens from `sender` to `recipient` using the allowance mechanism.
+    * `amount` is then deducted from the caller's allowance.
+    */
+    function safeTransferFrom(address sender, address recipient, uint256 amount, bytes memory data) public {
+        transferFrom(sender, recipient, amount);
+        require(_checkOnKIP7Received(sender, recipient, amount, data), "KIP7: transfer to non KIP7Receiver implementer");
+    }
+
+    /**
+     * @dev Moves tokens `amount` from `sender` to `recipient`.
+     *
+     * This is internal function is equivalent to `transfer`, and can be used to
+     * e.g. implement automatic token fees, slashing mechanisms, etc.
+     *
+     * Emits a `Transfer` event.
+     *
+     * Requirements:
+     *
+     * - `sender` cannot be the zero address.
+     * - `recipient` cannot be the zero address.
+     * - `sender` must have a balance of at least `amount`.
+     */
+    function _transfer(address sender, address recipient, uint256 amount) internal {
+        require(sender != address(0), "KIP7: transfer from the zero address");
+        require(recipient != address(0), "KIP7: transfer to the zero address");
+
+        _balances[sender] = _balances[sender].sub(amount);
+        _balances[recipient] = _balances[recipient].add(amount);
+        emit Transfer(sender, recipient, amount);
+    }
+
+    /** @dev Creates `amount` tokens and assigns them to `account`, increasing
+     * the total supply.
+     *
+     * Emits a `Transfer` event with `from` set to the zero address.
+     *
+     * Requirements
+     *
+     * - `to` cannot be the zero address.
+     */
+    function _mint(address account, uint256 amount) internal {
+        require(account != address(0), "KIP7: mint to the zero address");
+
+        _totalSupply = _totalSupply.add(amount);
+        _balances[account] = _balances[account].add(amount);
+        emit Transfer(address(0), account, amount);
+    }
+
+     /**
+     * @dev Destroys `amount` tokens from `account`, reducing the
+     * total supply.
+     *
+     * Emits a `Transfer` event with `to` set to the zero address.
+     *
+     * Requirements
+     *
+     * - `account` cannot be the zero address.
+     * - `account` must have at least `amount` tokens.
+     */
+    function _burn(address account, uint256 value) internal {
+        require(account != address(0), "KIP7: burn from the zero address");
+
+        _totalSupply = _totalSupply.sub(value);
+        _balances[account] = _balances[account].sub(value);
+        emit Transfer(account, address(0), value);
+    }
+
+    /**
+     * @dev Sets `amount` as the allowance of `spender` over the `owner`s tokens.
+     *
+     * This internal function is equivalent to `approve`, and can be used to
+     * e.g. set automatic allowances for certain subsystems, etc.
+     *
+     * Emits an `Approval` event.
+     *
+     * Requirements:
+     *
+     * - `owner` cannot be the zero address.
+     * - `spender` cannot be the zero address.
+     */
+    function _approve(address owner, address spender, uint256 value) internal {
+        require(owner != address(0), "KIP7: approve from the zero address");
+        require(spender != address(0), "KIP7: approve to the zero address");
+
+        _allowances[owner][spender] = value;
+        emit Approval(owner, spender, value);
+    }
+
+    /**
+     * @dev Destroys `amount` tokens from `account`.`amount` is then deducted
+     * from the caller's allowance.
+     *
+     * See `_burn` and `_approve`.
+     */
+    function _burnFrom(address account, uint256 amount) internal {
+        _burn(account, amount);
+        _approve(account, msg.sender, _allowances[account][msg.sender].sub(amount));
+    }
+
+    /**
+     * @dev Internal function to invoke `onKIP7Received` on a target address.
+     * The call is not executed if the target address is not a contract.
+     */
+    function _checkOnKIP7Received(address sender, address recipient, uint256 amount, bytes memory _data)
+        internal returns (bool)
+    {
+        if (!recipient.isContract()) {
+            return true;
+        }
+
+        bytes4 retval = IKIP7Receiver(recipient).onKIP7Received(msg.sender, sender, amount, _data);
+        return (retval == _KIP7_RECEIVED);
+    }
+}
+
+/**
  * @title KIP-17 Non-Fungible Token Standard, optional metadata extension
  * @dev See http://kips.klaytn.com/KIPs/kip-17-non_fungible_token
  */
@@ -1330,160 +1707,6 @@ contract KIP17Burnable is KIP13, KIP17 {
     }
 }
 
-contract PauserRole {
-    using Roles for Roles.Role;
-
-    event PauserAdded(address indexed account);
-    event PauserRemoved(address indexed account);
-
-    Roles.Role private _pausers;
-
-    constructor() internal {
-        _addPauser(msg.sender);
-    }
-
-    modifier onlyPauser() {
-        require(
-            isPauser(msg.sender),
-            "PauserRole: caller does not have the Pauser role"
-        );
-        _;
-    }
-
-    function isPauser(address account) public view returns (bool) {
-        return _pausers.has(account);
-    }
-
-    function addPauser(address account) public onlyPauser {
-        _addPauser(account);
-    }
-
-    function renouncePauser() public {
-        _removePauser(msg.sender);
-    }
-
-    function _addPauser(address account) internal {
-        _pausers.add(account);
-        emit PauserAdded(account);
-    }
-
-    function _removePauser(address account) internal {
-        _pausers.remove(account);
-        emit PauserRemoved(account);
-    }
-}
-
-/**
- * @dev Contract module which allows children to implement an emergency stop
- * mechanism that can be triggered by an authorized account.
- *
- * This module is used through inheritance. It will make available the
- * modifiers `whenNotPaused` and `whenPaused`, which can be applied to
- * the functions of your contract. Note that they will not be pausable by
- * simply including this module, only once the modifiers are put in place.
- */
-contract Pausable is PauserRole {
-    /**
-     * @dev Emitted when the pause is triggered by a pauser (`account`).
-     */
-    event Paused(address account);
-
-    /**
-     * @dev Emitted when the pause is lifted by a pauser (`account`).
-     */
-    event Unpaused(address account);
-
-    bool private _paused;
-
-    /**
-     * @dev Initializes the contract in unpaused state. Assigns the Pauser role
-     * to the deployer.
-     */
-    constructor() internal {
-        _paused = false;
-    }
-
-    /**
-     * @dev Returns true if the contract is paused, and false otherwise.
-     */
-    function paused() public view returns (bool) {
-        return _paused;
-    }
-
-    /**
-     * @dev Modifier to make a function callable only when the contract is not paused.
-     */
-    modifier whenNotPaused() {
-        require(!_paused, "Pausable: paused");
-        _;
-    }
-
-    /**
-     * @dev Modifier to make a function callable only when the contract is paused.
-     */
-    modifier whenPaused() {
-        require(_paused, "Pausable: not paused");
-        _;
-    }
-
-    /**
-     * @dev Called by a pauser to pause, triggers stopped state.
-     */
-    function pause() public onlyPauser whenNotPaused {
-        _paused = true;
-        emit Paused(msg.sender);
-    }
-
-    /**
-     * @dev Called by a pauser to unpause, returns to normal state.
-     */
-    function unpause() public onlyPauser whenPaused {
-        _paused = false;
-        emit Unpaused(msg.sender);
-    }
-}
-
-/**
- * @title KIP17 Non-Fungible Pausable token
- * @dev KIP17 modified with pausable transfers.
- */
-contract KIP17Pausable is KIP13, KIP17, Pausable {
-    /*
-     *     bytes4(keccak256('paused()')) == 0x5c975abb
-     *     bytes4(keccak256('pause()')) == 0x8456cb59
-     *     bytes4(keccak256('unpause()')) == 0x3f4ba83a
-     *     bytes4(keccak256('isPauser(address)')) == 0x46fbf68e
-     *     bytes4(keccak256('addPauser(address)')) == 0x82dc1ec4
-     *     bytes4(keccak256('renouncePauser()')) == 0x6ef8d66d
-     *
-     *     => 0x5c975abb ^ 0x8456cb59 ^ 0x3f4ba83a ^ 0x46fbf68e ^ 0x82dc1ec4 ^ 0x6ef8d66d == 0x4d5507ff
-     */
-    bytes4 private constant _INTERFACE_ID_KIP17_PAUSABLE = 0x4d5507ff;
-
-    /**
-     * @dev Constructor function.
-     */
-    constructor() public {
-        // register the supported interface to conform to KIP17Pausable via KIP13
-        _registerInterface(_INTERFACE_ID_KIP17_PAUSABLE);
-    }
-
-    function zapprove(address to, uint256 tokenId) public whenNotPaused {
-        super.zapprove(to, tokenId);
-    }
-
-    function setApprovalForAll(address to, bool approved) public whenNotPaused {
-        super.setApprovalForAll(to, approved);
-    }
-
-    function transferFrom(
-        address from,
-        address to,
-        uint256 tokenId
-    ) public whenNotPaused {
-        super.transferFrom(from, to, tokenId);
-    }
-}
 
 contract Ownable {
     address payable private _owner;
@@ -1811,22 +2034,22 @@ contract EduNFT is KIP17Full, Ownable {
     // }
 
 
-    // function purchaseNFT(uint256 tokenId) public {
-    //     require(idToMintedToken[tokenId].currentlyListed == true, "You only can buy listed NFTs");
-    //     //update the details of the token
+    function purchaseNFT(uint256 tokenId) public {
+        require(idToMintedToken[tokenId].currentlyListed == true, "You only can buy listed NFTs");
+        //update the details of the token
 
-    //     address payable recipient = address(uint256(idToMintedToken[tokenId].seller));
+        // address payable recipient = address(uint256(idToMintedToken[tokenId].seller));
 
-    //     msg.sender.transfer(10);
+        msg.sender.transfer(10);
 
-    //     // transfer KLAY from smart contract address to recipient's wallet
-    //     // transferKlay(recipient, idToMintedToken[tokenId].price);
+        // transfer KLAY from smart contract address to recipient's wallet
+        // transferKlay(recipient, idToMintedToken[tokenId].price);
 
-    //     idToMintedToken[tokenId].seller = msg.sender;
-    //     idToMintedToken[tokenId].owner = msg.sender;
-    //     idToMintedToken[tokenId].price = 0;
-    //     idToMintedToken[tokenId].currentlyListed = false;
-    //     _itemsSold.increment();
-    //     _transferFrom(address(this), msg.sender, tokenId);
-    // }
+        idToMintedToken[tokenId].seller = msg.sender;
+        idToMintedToken[tokenId].owner = msg.sender;
+        idToMintedToken[tokenId].price = 0;
+        idToMintedToken[tokenId].currentlyListed = false;
+        _itemsSold.increment();
+        _transferFrom(address(this), msg.sender, tokenId);
+    }
 }
