@@ -10,6 +10,11 @@ const pinataEndpoint = "https://gateway.pinata.cloud/ipfs/";
 /**
  * TODO: 민팅하고 나서 콜렉션 페이지에 이미지 바로 로딩안됌 (i think metadata loading issue)
  *  사진 보일때까지 설명이나 로딩중 추가하기
+ * TODO: fix cors error for fetching (randomly happening)
+ * TODO: Account Disconnect 했을때 nft안보이게하기 (refresh?)
+ * TODO: 갤러리 창 만들기
+ * TODO: All eduNFTs on listing tab 만들기
+ * TODO: deploy 해보기
  */
 
 export default function Collection() {
@@ -41,6 +46,7 @@ export default function Collection() {
         await tokens.map((token) => {
           try {
             fetch(pinataEndpoint + token.tokenURI.slice(7), {
+              // mode: "no-cors",
               headers: {
                 Accept: "text/plain",
               },
@@ -76,6 +82,7 @@ export default function Collection() {
         await tokens.map((token) => {
           try {
             fetch(pinataEndpoint + token.tokenURI.slice(7), {
+              // mode: "no-cors",
               headers: {
                 Accept: "text/plain",
               },
@@ -100,7 +107,7 @@ export default function Collection() {
       const getAllNFTs = async () => {
         setLoading(true);
         const tokens = await myContract.methods
-          .getMyNFTs(account)
+          .getAllNFTs()
           .call()
           .then(function (result) {
             return result;
@@ -111,6 +118,7 @@ export default function Collection() {
         await tokens.map((token) => {
           try {
             fetch(pinataEndpoint + token.tokenURI.slice(7), {
+              // mode: "no-cors",
               headers: {
                 Accept: "text/plain",
               },

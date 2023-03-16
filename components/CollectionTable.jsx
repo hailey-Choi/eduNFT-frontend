@@ -157,7 +157,8 @@ export default function CollectionTable({ metadata, selectedTab }) {
                       (selectedTab === tabs[0] &&
                         data.currentlyListed == true) ||
                       (selectedTab === tabs[2] &&
-                        data.seller.toUpperCase() == account.toUpperCase())
+                        data.seller.toUpperCase() == account.toUpperCase()) ||
+                      (selectedTab === tabs[2] && data.currentlyListed == false)
                         ? "p-3 text-xs mt-2 bg-gray-400 hover:bg-gray-400 active:text-white"
                         : "p-3 text-xs mt-2 "
                     }
@@ -166,7 +167,8 @@ export default function CollectionTable({ metadata, selectedTab }) {
                       (selectedTab === tabs[0] &&
                         data.currentlyListed == true) ||
                       (selectedTab === tabs[2] &&
-                        data.seller.toUpperCase() == account.toUpperCase())
+                        data.seller.toUpperCase() == account.toUpperCase()) ||
+                      (selectedTab === tabs[2] && data.currentlyListed == false)
                     }
                   >
                     {selectedTab === tabs[0] && data.currentlyListed == false
@@ -185,7 +187,9 @@ export default function CollectionTable({ metadata, selectedTab }) {
                       {data.price} KLAY
                     </p>
                   ) : (
-                    <></>
+                    <p className="leading-7 text-md font-semibold text-gray-500">
+                      Not listed
+                    </p>
                   )}
                 </div>
               )}
