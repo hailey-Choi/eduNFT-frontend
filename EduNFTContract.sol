@@ -1802,9 +1802,7 @@ contract EduNFT is KIP17Full, Ownable {
 
     function purchaseNFT(uint256 tokenId) public payable {
         require(idToMintedToken[tokenId].currentlyListed == true, "You only can buy listed NFTs");
-        require(msg.value >= idToMintedToken[tokenId].price, "Insufficient KLAY from buyer");
-
-        //update the details of the token
+        require(msg.value == idToMintedToken[tokenId].price * 1000000000000000000, "Exact Klay is required");
 
         address payable recipient = address(uint256(idToMintedToken[tokenId].seller));
         transferKlay(recipient);
