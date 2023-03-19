@@ -4,7 +4,12 @@ import { contractABI, contractAddress } from "../klaytn/contract";
 import { useState, useEffect } from "react";
 
 const pinataEndpoint = "https://gateway.pinata.cloud/ipfs/";
-const tabs = ["My EduNFTs", "My EduNFTs on Listing", "All EduNFTs"];
+const tabs = [
+  "My EduNFTs",
+  "My EduNFTs on Listing",
+  "All EduNFTs",
+  "All EduNFTs on Listing",
+];
 
 export default function CollectionTable({ metadata, selectedTab }) {
   const [account, setAccount] = useState(null);
@@ -158,7 +163,10 @@ export default function CollectionTable({ metadata, selectedTab }) {
                         data.currentlyListed == true) ||
                       (selectedTab === tabs[2] &&
                         data.seller.toUpperCase() == account.toUpperCase()) ||
-                      (selectedTab === tabs[2] && data.currentlyListed == false)
+                      (selectedTab === tabs[2] &&
+                        data.currentlyListed == false) ||
+                      (selectedTab === tabs[3] &&
+                        data.seller.toUpperCase() == account.toUpperCase())
                         ? "p-3 text-xs mt-2 bg-gray-400 hover:bg-gray-400 active:text-white"
                         : "p-3 text-xs mt-2 "
                     }
@@ -168,7 +176,10 @@ export default function CollectionTable({ metadata, selectedTab }) {
                         data.currentlyListed == true) ||
                       (selectedTab === tabs[2] &&
                         data.seller.toUpperCase() == account.toUpperCase()) ||
-                      (selectedTab === tabs[2] && data.currentlyListed == false)
+                      (selectedTab === tabs[2] &&
+                        data.currentlyListed == false) ||
+                      (selectedTab === tabs[3] &&
+                        data.seller.toUpperCase() == account.toUpperCase())
                     }
                   >
                     {selectedTab === tabs[0] && data.currentlyListed == false
@@ -177,8 +188,10 @@ export default function CollectionTable({ metadata, selectedTab }) {
                       ? "On Listing"
                       : selectedTab === tabs[1]
                       ? "Cancel Listing"
-                      : selectedTab === tabs[2] &&
-                        data.seller.toUpperCase() == account.toUpperCase()
+                      : (selectedTab === tabs[2] &&
+                          data.seller.toUpperCase() == account.toUpperCase()) ||
+                        (selectedTab === tabs[3] &&
+                          data.seller.toUpperCase() == account.toUpperCase())
                       ? "Owned"
                       : "Buy now"}
                   </Button>

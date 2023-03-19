@@ -21,6 +21,7 @@ export default function Collection() {
   const [userTokenMetadata, setUserTokenMetadata] = useState([]);
   const [userListedTokenMetadata, setUserListedTokenMetadata] = useState([]);
   const [allTokenMetadata, setAllTokenMetadata] = useState([]);
+  const [allListedTokenMetadata, setAllListedTokenMetadata] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -29,20 +30,55 @@ export default function Collection() {
     const account = provider.selectedAddress;
     const myContract = new caver.klay.Contract(contractABI, contractAddress);
     setUserTokenMetadata([]);
+    setUserListedTokenMetadata([]);
     setAllTokenMetadata([]);
+    setAllListedTokenMetadata([]);
 
     if (account) {
-      const getUserNFTs = async () => {
+      const getNFTs = async (tab) => {
         setLoading(true);
-        const tokens = await myContract.methods
-          .getMyNFTs(account)
-          .call()
-          .then(function (result) {
-            return result;
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+        const tokens =
+          tab == "user"
+            ? await myContract.methods
+                .getMyNFTs(account)
+                .call()
+                .then(function (result) {
+                  return result;
+                })
+                .catch(function (error) {
+                  console.log(error);
+                })
+            : tab == "userListed"
+            ? await myContract.methods
+                .getMyListedNFTs(account)
+                .call()
+                .then(function (result) {
+                  return result;
+                })
+                .catch(function (error) {
+                  console.log(error);
+                })
+            : tab == "all"
+            ? await myContract.methods
+                .getAllNFTs()
+                .call()
+                .then(function (result) {
+                  return result;
+                })
+                .catch(function (error) {
+                  console.log(error);
+                })
+            : tab == "allListed"
+            ? await myContract.methods
+                .getAllListedNFTs()
+                .call()
+                .then(function (result) {
+                  return result;
+                })
+                .catch(function (error) {
+                  console.log(error);
+                })
+            : {};
         await tokens.map((token) => {
           try {
             fetch(pinataEndpoint + token.tokenURI.slice(7), {
@@ -59,7 +95,18 @@ export default function Collection() {
                 metadata.seller = token.seller;
                 metadata.tokenId = token.tokenId;
                 metadata.tokenURI = token.tokenURI;
-                setUserTokenMetadata((arr) => [...arr, metadata]);
+                if (tab == "user") {
+                  setUserTokenMetadata((arr) => [...arr, metadata]);
+                }
+                if (tab == "userListed") {
+                  setUserListedTokenMetadata((arr) => [...arr, metadata]);
+                }
+                if (tab == "all") {
+                  setAllTokenMetadata((arr) => [...arr, metadata]);
+                }
+                if (tab == "allListed") {
+                  setAllListedTokenMetadata((arr) => [...arr, metadata]);
+                }
               });
           } catch (e) {
             console.log(e);
@@ -68,81 +115,10 @@ export default function Collection() {
         await setLoading(false);
       };
 
-      const getUserListedNFTs = async () => {
-        setLoading(true);
-        const tokens = await myContract.methods
-          .getMyListedNFTs(account)
-          .call()
-          .then(function (result) {
-            return result;
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-        await tokens.map((token) => {
-          try {
-            fetch(pinataEndpoint + token.tokenURI.slice(7), {
-              // mode: "no-cors",
-              headers: {
-                Accept: "text/plain",
-              },
-            })
-              .then((response) => response.json())
-              .then((metadata) => {
-                metadata.currentlyListed = token.currentlyListed;
-                metadata.owner = token.owner;
-                metadata.price = token.price;
-                metadata.seller = token.seller;
-                metadata.tokenId = token.tokenId;
-                metadata.tokenURI = token.tokenURI;
-                setUserListedTokenMetadata((arr) => [...arr, metadata]);
-              });
-          } catch (e) {
-            console.log(e);
-          }
-        });
-        await setLoading(false);
-      };
-
-      const getAllNFTs = async () => {
-        setLoading(true);
-        const tokens = await myContract.methods
-          .getAllNFTs()
-          .call()
-          .then(function (result) {
-            return result;
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-        await tokens.map((token) => {
-          try {
-            fetch(pinataEndpoint + token.tokenURI.slice(7), {
-              // mode: "no-cors",
-              headers: {
-                Accept: "text/plain",
-              },
-            })
-              .then((response) => response.json())
-              .then((metadata) => {
-                metadata.currentlyListed = token.currentlyListed;
-                metadata.owner = token.owner;
-                metadata.price = token.price;
-                metadata.seller = token.seller;
-                metadata.tokenId = token.tokenId;
-                metadata.tokenURI = token.tokenURI;
-                setAllTokenMetadata((arr) => [...arr, metadata]);
-              });
-          } catch (e) {
-            console.log(e);
-          }
-        });
-        await setLoading(false);
-      };
-
-      getUserNFTs();
-      getUserListedNFTs();
-      getAllNFTs();
+      getNFTs("user");
+      getNFTs("userListed");
+      getNFTs("all");
+      getNFTs("allListed");
     } else {
       alert("Connect wallet first!");
     }
@@ -151,6 +127,7 @@ export default function Collection() {
   console.log("UserTokenMetadata", userTokenMetadata);
   console.log("UserListedTokenMetadata: ", userListedTokenMetadata);
   console.log("AllTokenMetadata", allTokenMetadata);
+  console.log("AllListedMetadat: ", allListedTokenMetadata);
 
   return (
     <Layout>
@@ -170,6 +147,7 @@ export default function Collection() {
             userMetadata={userTokenMetadata}
             userListedMetadata={userListedTokenMetadata}
             allMetadata={allTokenMetadata}
+            allListedMetadata={allListedTokenMetadata}
           />
         )}
       </Container>
