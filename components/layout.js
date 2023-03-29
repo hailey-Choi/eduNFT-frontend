@@ -95,7 +95,14 @@ export default function Layout({ children }) {
           </div>
         </Container>
       </header>
-      {openModal ? <Modal handleClose={() => handleCloseModal()} /> : <></>}
+      {openModal ? (
+        <Modal
+          title={"How to connect wallet"}
+          handleClose={() => handleCloseModal()}
+        />
+      ) : (
+        <></>
+      )}
       <main>{children}</main>
     </>
   );

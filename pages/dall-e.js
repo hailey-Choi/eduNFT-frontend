@@ -1,12 +1,13 @@
 import Layout from "../components/layout";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { ProgressBar } from "react-loader-spinner";
+import { ProgressBar, ColorRing } from "react-loader-spinner";
 import { Container } from "../components/Container";
 import { useRouter } from "next/router";
 import { Button } from "../components/Button";
 import Caver from "caver-js";
 import { contractABI, contractAddress } from "../klaytn/contract";
+import Quiz from "../components/Quiz";
 
 // TODO : Minting button loading 중일때 disable 하기 (안하면 누른만큼 민팅됌)
 
@@ -19,6 +20,8 @@ export default function DallE() {
   const [nftDesc, setNftDesc] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
+  const [quizPassed, setQuizPassed] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -100,6 +103,10 @@ export default function DallE() {
     handleClose();
   };
 
+  const handleSelectAnswer = (isCorrect) => {
+    setIsCorrectAnswer(isCorrect);
+  };
+
   return (
     <Layout>
       <div>
@@ -113,7 +120,7 @@ export default function DallE() {
             </h2>
           </div>
           <div>
-            {loading ? (
+            {/* {loading ? (
               <ProgressBar
                 height="80"
                 width="80"
@@ -122,7 +129,45 @@ export default function DallE() {
                 wrapperClass="progress-bar-wrapper"
                 borderColor="#F4442E"
                 barColor="#51E5FF"
-              />
+              /> */}
+            {!quizPassed ? (
+              <div>
+                <Quiz onClick={handleSelectAnswer} />
+                <div className="flex">
+                  <Button
+                    onClick={() => {
+                      isCorrectAnswer
+                        ? setQuizPassed(true)
+                        : alert("Try again!");
+                    }}
+                    className={
+                      loading
+                        ? " bg-gray-400 hover:bg-gray-400 active:text-white"
+                        : ""
+                    }
+                  >
+                    Submit
+                  </Button>
+                  {loading ? (
+                    <ColorRing
+                      visible={true}
+                      height="40"
+                      width="80"
+                      ariaLabel="blocks-loading"
+                      wrapperStyle={{}}
+                      wrapperClass="blocks-wrapper"
+                      colors={["blue"]}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  <p className="my-auto ml-2 text-gray-500">
+                    {loading
+                      ? "Generating Dall-E Images..."
+                      : "All set! Submit the answer to see the generated images."}
+                  </p>
+                </div>
+              </div>
             ) : (
               <div>
                 <div>
