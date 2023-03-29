@@ -1,14 +1,18 @@
 import Head from "next/head";
 import { useState, useContext, useEffect } from "react";
-
+import { QuestionMarkCircleIcon } from "@heroicons/react/20/solid";
 import Caver from "caver-js";
 import { Button } from "./Button";
 import { Container } from "./Container";
-import AppContext from "./AppContext";
-
+import { Modal } from "./modal";
 export default function Layout({ children }) {
   const [connected, setConnected] = useState(false);
   const [address, setAddress] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   useEffect(() => {
     const provider = window["klaytn"];
@@ -76,11 +80,22 @@ export default function Layout({ children }) {
               >
                 {connected ? "Disconnect Wallet" : "Connect Wallet"}
               </Button>
+              <button
+                type="button"
+                className="rounded-full bg-blue-700 h-6 w-6 my-auto mx-2 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+                onClick={() => setOpenModal(true)}
+              >
+                <QuestionMarkCircleIcon
+                  className="h-6 w-6"
+                  aria-hidden="true"
+                />
+              </button>
             </div>
             {address ? <div> Address : {address.slice(0, 12)} ...</div> : <></>}
           </div>
         </Container>
       </header>
+      {openModal ? <Modal handleClose={() => handleCloseModal()} /> : <></>}
       <main>{children}</main>
     </>
   );

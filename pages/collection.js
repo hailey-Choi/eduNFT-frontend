@@ -1,6 +1,6 @@
 import Layout from "../components/layout";
 import { Container } from "../components/Container";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { contractABI, contractAddress } from "../klaytn/contract";
 import Caver from "caver-js";
 import CollectionView from "../components/CollectionView";
@@ -13,7 +13,6 @@ const pinataEndpoint = "https://gateway.pinata.cloud/ipfs/";
  * TODO: fix cors error for fetching (randomly happening)
  * TODO: Account Disconnect 했을때 nft안보이게하기 (refresh?)
  * TODO: 갤러리 창 만들기
- * TODO: All eduNFTs on listing tab 만들기
  * TODO: deploy 해보기
  */
 
@@ -23,7 +22,6 @@ export default function Collection() {
   const [allTokenMetadata, setAllTokenMetadata] = useState([]);
   const [allListedTokenMetadata, setAllListedTokenMetadata] = useState([]);
   const [loading, setLoading] = useState(false);
-
   useEffect(() => {
     const provider = window["klaytn"];
     const caver = new Caver(provider);
