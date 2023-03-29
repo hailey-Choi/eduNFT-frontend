@@ -1,7 +1,7 @@
 import AnswerCard from "../components/AnswerCard";
 import questions from "../questions.json";
 
-export default function Quiz(props) {
+export function Quiz(props) {
   const question = questions.geography[0].question;
   const answers = questions.geography[0].answers;
   const correctAnswer = questions.geography[0].correctAnswer;
