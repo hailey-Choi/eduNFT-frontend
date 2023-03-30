@@ -1,6 +1,5 @@
 import { Button } from "../components/Button";
 import Quiz from "../components/Quiz";
-import { ConnectWalletInfo } from "./ConnectWalletInfo";
 
 export function Modal(props) {
   return (
@@ -15,13 +14,7 @@ export function Modal(props) {
             </div>
             {/*body*/}
             <div className="relative p-6 flex-auto my-4 text-slate-500 text-lg leading-relaxed">
-              {props.type == "quiz" ? (
-                <Quiz />
-              ) : props.type == "connectWalletInfo" ? (
-                <ConnectWalletInfo />
-              ) : (
-                ""
-              )}
+              {props.type == "quiz" ? <Quiz /> : "body"}
             </div>
             {/*footer*/}
             <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">

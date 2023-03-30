@@ -98,7 +98,6 @@ export default function Layout({ children }) {
       {openModal ? (
         <Modal
           title={"How to connect wallet"}
-          type={"connectWalletInfo"}
           handleClose={() => handleCloseModal()}
         />
       ) : (
