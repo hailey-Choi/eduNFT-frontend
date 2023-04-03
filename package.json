@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.7",
-    "@heroicons/react": "^2.0.13",
+    "@heroicons/react": "^2.0.17",
     "axios": "^1.2.2",
     "babel-preset-es2015": "^6.24.1",
     "caver-js": "^1.10.1",
@@ -27,5 +27,20 @@
     "eslint-config-next": "13.1.2",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.4"
-  }
+  },
+  "name": "edu-nft",
+  "description": "Run `npm run dev` at the root directory to run the frontend application on localhost:3000.",
+  "version": "1.0.0",
+  "main": "next.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hailey-Choi/eduNFT-frontend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hailey-Choi/eduNFT-frontend/issues"
+  },
+  "homepage": "https://github.com/hailey-Choi/eduNFT-frontend#readme"
 }

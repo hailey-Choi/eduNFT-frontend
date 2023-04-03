@@ -1,5 +1,6 @@
 import { useState } from "react";
 import CollectionTable from "./CollectionTable";
+import { ExclamationCircleIcon } from "@heroicons/react/20/solid";
 
 const tabs = [
   "My EduNFTs",
@@ -17,6 +18,7 @@ export default function CollectionView({
   userListedMetadata,
   allMetadata,
   allListedMetadata,
+  wallet,
 }) {
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
 
@@ -72,20 +74,27 @@ export default function CollectionView({
           </ul>
         </div>
       </div>
-      <CollectionTable
-        metadata={
-          selectedTab == tabs[0]
-            ? userMetadata
-            : selectedTab == tabs[1]
-            ? userListedMetadata
-            : selectedTab == tabs[2]
-            ? allMetadata
-            : selectedTab == tabs[3]
-            ? allListedMetadata
-            : {}
-        }
-        selectedTab={selectedTab}
-      />
+      {wallet ? (
+        <CollectionTable
+          metadata={
+            selectedTab == tabs[0]
+              ? userMetadata
+              : selectedTab == tabs[1]
+              ? userListedMetadata
+              : selectedTab == tabs[2]
+              ? allMetadata
+              : selectedTab == tabs[3]
+              ? allListedMetadata
+              : {}
+          }
+          selectedTab={selectedTab}
+        />
+      ) : (
+        <div className="flex my-10 bg-gray-100 p-5 rounded-2xl font-semibold text-gray-500">
+          <ExclamationCircleIcon className="w-5 h-5 mr-2" />
+          Connect your wallet first
+        </div>
+      )}
     </div>
   );
 }

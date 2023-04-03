@@ -8,6 +8,7 @@ export default function Quiz(props) {
 
   return (
     <div className="pt-6 pb-2 mx-5">
+      <p className="font-bold text-xl mb-2">Quiz</p>
       <p>{question}</p>
       <div>
         <AnswerCard

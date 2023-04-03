@@ -1,13 +1,11 @@
 import "../styles/tailwind.css";
-import AppContext from "../components/AppContext";
+import { AppWrapper } from "../components/AppContext";
 import { useState } from "react";
 
 export default function App({ Component, pageProps }) {
-  const [wallet, setWallet] = useState(null);
-
   return (
-    <AppContext.Provider value={{ wallet, setWallet }}>
+    <AppWrapper>
       <Component {...pageProps} />
-    </AppContext.Provider>
+    </AppWrapper>
   );
 }

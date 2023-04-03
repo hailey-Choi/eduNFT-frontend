@@ -1,27 +1,33 @@
 import Head from "next/head";
 import { useState, useContext, useEffect } from "react";
-import { QuestionMarkCircleIcon } from "@heroicons/react/20/solid";
+import {
+  QuestionMarkCircleIcon,
+  WalletIcon,
+  Squares2X2Icon,
+} from "@heroicons/react/20/solid";
 import Caver from "caver-js";
 import { Button } from "./Button";
 import { Container } from "./Container";
 import { Modal } from "./modal";
 import Link from "next/link";
+import { useAppContext } from "../components/AppContext";
+
+// TODO: connect 눌러야만 커넥트하기 (자동말고)
 
 export default function Layout({ children }) {
-  const [connected, setConnected] = useState(false);
-  const [address, setAddress] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const walletContext = useAppContext();
 
   const handleCloseModal = () => {
     setOpenModal(false);
+    connectWallet();
   };
 
   useEffect(() => {
     const provider = window["klaytn"];
     const account = provider.selectedAddress;
     if (account) {
-      setConnected(true);
-      setAddress(account);
+      walletContext.setWallet(account);
     }
   }, []);
 
@@ -44,14 +50,12 @@ export default function Layout({ children }) {
 
     console.log("accounts: ", accounts);
     if (accounts) {
-      setConnected(true);
-      setAddress(accounts[0]);
+      walletContext.setWallet(accounts[0]);
     }
   };
 
   const disconnectWallet = async () => {
-    setConnected(false);
-    setAddress(null);
+    walletContext.setWallet(null);
   };
 
   return (
@@ -60,7 +64,7 @@ export default function Layout({ children }) {
         <title>EduNFT</title>
       </Head>
       <header className="relative z-50 pb-11 lg:pt-11">
-        <Container className="flex flex-wrap items-center justify-center sm:justify-between lg:flex-nowrap">
+        <Container className="flex flex-wrap items-center justify-center sm:justify-between lg:flex-nowrapxw">
           <div className="mt-10 lg:mt-0 lg:grow lg:basis-0">
             <Link
               href={{
@@ -80,26 +84,39 @@ export default function Layout({ children }) {
               <p>The ultimate educational platform for AI and Blockchain</p>
             </div>
           </div>
-          <div>
-            <div className="hidden sm:mt-10 sm:flex lg:mt-0 lg:grow lg:basis-0 lg:justify-end">
-              <Button
-                onClick={connected ? disconnectWallet : connectWallet}
-                href="#"
-              >
-                {connected ? "Disconnect Wallet" : "Connect Wallet"}
-              </Button>
-              <button
-                type="button"
-                className="rounded-full bg-blue-700 h-6 w-6 my-auto mx-2 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
-                onClick={() => setOpenModal(true)}
-              >
-                <QuestionMarkCircleIcon
-                  className="h-6 w-6"
-                  aria-hidden="true"
-                />
-              </button>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <div className="hidden sm:mt-10 sm:flex lg:mt-0 lg:grow lg:basis-0 lg:justify-end">
+                <Button
+                  onClick={
+                    walletContext.wallet
+                      ? disconnectWallet
+                      : () => {
+                          setOpenModal(true);
+                        }
+                  }
+                  href="#"
+                >
+                  <WalletIcon className="h-6 w-6 mr-2" />
+                  {walletContext.wallet
+                    ? "Disconnect Wallet"
+                    : "Connect Wallet"}
+                </Button>
+              </div>
+              <div>
+                {walletContext.wallet ? (
+                  <div> Address : {walletContext.wallet.slice(0, 12)} ...</div>
+                ) : (
+                  <></>
+                )}
+              </div>
             </div>
-            {address ? <div> Address : {address.slice(0, 12)} ...</div> : <></>}
+            <div>
+              <Button href="/collection">
+                <Squares2X2Icon className="h-6 w-6 mr-2" />
+                NFT gallery
+              </Button>
+            </div>
           </div>
         </Container>
       </header>

@@ -5,6 +5,7 @@ import { contractABI, contractAddress } from "../klaytn/contract";
 import Caver from "caver-js";
 import CollectionView from "../components/CollectionView";
 import { ProgressBar } from "react-loader-spinner";
+import { useAppContext } from "../components/AppContext";
 const pinataEndpoint = "https://gateway.pinata.cloud/ipfs/";
 
 /**
@@ -22,23 +23,26 @@ export default function Collection() {
   const [allTokenMetadata, setAllTokenMetadata] = useState([]);
   const [allListedTokenMetadata, setAllListedTokenMetadata] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const myContext = useAppContext();
+  console.log("context wallet: ", myContext.wallet);
+
   useEffect(() => {
     const provider = window["klaytn"];
     const caver = new Caver(provider);
-    const account = provider.selectedAddress;
     const myContract = new caver.klay.Contract(contractABI, contractAddress);
     setUserTokenMetadata([]);
     setUserListedTokenMetadata([]);
     setAllTokenMetadata([]);
     setAllListedTokenMetadata([]);
 
-    if (account) {
+    if (myContext.wallet) {
       const getNFTs = async (tab) => {
         setLoading(true);
         const tokens =
           tab == "user"
             ? await myContract.methods
-                .getMyNFTs(account)
+                .getMyNFTs(myContext.wallet)
                 .call()
                 .then(function (result) {
                   return result;
@@ -48,7 +52,7 @@ export default function Collection() {
                 })
             : tab == "userListed"
             ? await myContract.methods
-                .getMyListedNFTs(account)
+                .getMyListedNFTs(myContext.wallet)
                 .call()
                 .then(function (result) {
                   return result;
@@ -117,15 +121,13 @@ export default function Collection() {
       getNFTs("userListed");
       getNFTs("all");
       getNFTs("allListed");
-    } else {
-      alert("Connect wallet first!");
     }
-  }, []);
+  }, [myContext.wallet]);
 
-  console.log("UserTokenMetadata", userTokenMetadata);
-  console.log("UserListedTokenMetadata: ", userListedTokenMetadata);
-  console.log("AllTokenMetadata", allTokenMetadata);
-  console.log("AllListedMetadat: ", allListedTokenMetadata);
+  // console.log("UserTokenMetadata", userTokenMetadata);
+  // console.log("UserListedTokenMetadata: ", userListedTokenMetadata);
+  // console.log("AllTokenMetadata", allTokenMetadata);
+  // console.log("AllListedMetadat: ", allListedTokenMetadata);
 
   return (
     <Layout>
@@ -146,6 +148,7 @@ export default function Collection() {
             userListedMetadata={userListedTokenMetadata}
             allMetadata={allTokenMetadata}
             allListedMetadata={allListedTokenMetadata}
+            wallet={myContext.wallet}
           />
         )}
       </Container>
