@@ -167,8 +167,8 @@ export default function CollectionTable({ metadata, selectedTab }) {
                         data.currentlyListed == false) ||
                       (selectedTab === tabs[3] &&
                         data.seller.toUpperCase() == account.toUpperCase())
-                        ? "p-3 text-xs mt-2 bg-gray-400 hover:bg-gray-400 active:text-white"
-                        : "p-3 text-xs mt-2 "
+                        ? "p-3 text-xs mt-2 bg-gray-500 hover:bg-gray-500 active:text-white"
+                        : "p-3 text-xs mt-2"
                     }
                     onClick={() => handleClick(data)}
                     disabled={
