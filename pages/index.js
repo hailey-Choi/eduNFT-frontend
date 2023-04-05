@@ -53,30 +53,30 @@ export default function Home() {
               >
                 Start with a detailed description
               </label>
-              <div className="mt-3 mb-3 w-96">
+              <div className="mt-3 mb-3 w-96 flex justify-center">
                 <input
                   type="text"
                   id="textInput"
                   name="textInput"
                   value={textInput}
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 lg:text-lg text-center"
+                  className="mx-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 lg:text-lg"
                   placeholder="teddy bears shopping for groceries, one-line drawing"
                   onChange={(e) => {
                     setTextInput(e.target.value);
                   }}
                 />
+                <Link
+                  href={{
+                    pathname: "/dall-e",
+                    query: {
+                      keyword: textInput
+                    },
+                  }}
+                >
+                  <Button className="p- text-s mt-2 ml-2" disabled={textInput.length <= 10}>Generate</Button>
+                </Link>
               </div>
             </div>
-            <Link
-              href={{
-                pathname: "/dall-e",
-                query: {
-                  keyword: textInput,
-                },
-              }}
-            >
-              <Button className="p- text-s mt-2 ml-2"> Generate Images</Button>
-            </Link>
           </div>
         </div>
       </Container>
