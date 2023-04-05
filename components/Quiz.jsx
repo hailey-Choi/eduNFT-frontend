@@ -1,10 +1,12 @@
 import AnswerCard from "../components/AnswerCard";
 import questions from "../questions.json";
 
+
 export default function Quiz(props) {
-  const question = questions.geography[0].question;
-  const answers = questions.geography[0].answers;
-  const correctAnswer = questions.geography[0].correctAnswer;
+  const randomIndex = Math.floor(Math.random() * questions.nft.length);
+  const question = questions.nft[randomIndex].question;
+  const answers = questions.nft[randomIndex].answers;
+  const correctAnswer = questions.nft[randomIndex].correctAnswer;
 
   return (
     <div className="pt-6 pb-2 mx-5">

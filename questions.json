@@ -1,39 +1,91 @@
 {
-  "geography": [
+  "nft": [
     {
-      "question": "What is the capital city of Switzerland?",
-      "answers": ["Geneva", "Zurich", "Bern", "Lausanne"],
-      "correctAnswer": "Bern"
+        "question": "What does NFT stand for?",
+        "answers": ["Non-Fungible Token", "Non-Financial Transaction", "National Football Team"],
+        "correctAnswer": "Non-Fungible Token"
     },
     {
-      "question": "What is the world's largest river by volume?",
-      "answers": ["The Nile", "The Amazon", "The Congo", "The Yangtze"],
-      "correctAnswer": "The Amazon"
+        "question": "Which blockchain technology is commonly used for NFTs?",
+        "answers": ["Bitcoin", "Ethereum", "Ripple"],
+        "correctAnswer": "Ethereum"
     },
     {
-      "question": "What is the most populous city in the world?",
-      "answers": ["Tokyo", "Beijing", "Mumbai", "New York"],
-      "correctAnswer": "Tokyo"
+        "question": "What type of digital assets can be turned into NFTs?",
+        "answers": ["Music", "Artwork", "Both a and b"],
+        "correctAnswer": "Both a and b"
     },
     {
-      "question": "How large an area does Asia cover in km³?",
+        "question": "What is the main benefit of NFTs?",
+        "answers": ["They can be easily duplicated", "They can be traded without a central authority", "They can be used as a currency"],
+        "correctAnswer": "They can be traded without a central authority"
+    },
+    {
+        "question": "What is the process of creating an NFT called?",
+        "answers": ["Minting", "Printing", "Producing"],
+        "correctAnswer": "Minting"
+    },
+    {
+        "question": "What determines the value of an NFT?",
+        "answers": ["The rarity of the underlying asset", "The popularity of the creator", "The number of transactions it has been involved in"],
+        "correctAnswer": "The rarity of the underlying asset"
+    },
+    {
+        "question": "What is the primary use of NFTs?",
+        "answers": ["To create digital currencies", "To establish ownership of digital assets", "To facilitate online transactions"],
+        "correctAnswer": "To establish ownership of digital assets"
+    },
+    {
+        "question": "What happens when an NFT is sold?",
+        "answers": ["The buyer gains ownership of the underlying asset", "The seller retains ownership of the underlying asset", "The underlying asset is destroyed"],
+        "correctAnswer": "The buyer gains ownership of the underlying asset"
+    },
+    {
+      "question": "Which industry has seen a surge in NFT usage?",
+      "answers": ["Music", "Fashion", "Real estate"],
+      "correctAnswer": "Music"
+    },
+    {
+        "question": "Can NFTs be used for physical assets?",
+        "answers": ["Yes, but only for certain types of assets", "No, NFTs are strictly for digital assets", "Yes, for any type of asset."],
+        "correctAnswer": "Yes, but only for certain types of assets"
+    },
+    {
+        "question": "What is the difference between a fungible and non-fungible asset?",
+        "answers": ["Fungible assets can be divided into smaller parts, while non-fungible assets cannot", "Fungible assets are physical, while non-fungible assets are digital", "Fungible assets have a fixed value, while non-fungible assets can vary in value"],
+        "correctAnswer": "Fungible assets can be divided into smaller parts, while non-fungible assets cannot"
+    },
+    {
+        "question": "Can NFTs be used to prove ownership of physical assets?",
+        "answers": ["Yes, as long as the asset is unique and has a digital representation", "No, NFTs can only be used for digital assets", "It depends on the type of physical asset and the specific NFT platform"],
+        "correctAnswer": "Yes, as long as the asset is unique and has a digital representation"
+    },
+    {
+      "question": "How are NFTs typically bought and sold?",
       "answers": [
-        "44.58 million",
-        "52.64 million",
-        "41.59 million",
-        "48.41 million"
+          "Through traditional auction houses",
+          "Through specialized NFT marketplaces",
+          "Through social media platforms like Instagram and Twitter"
       ],
-      "correctAnswer": "44.58 million"
+      "correctAnswer": "Through specialized NFT marketplaces"
     },
     {
-      "question": "Which of these is not one of the 7 wonders of the ancient world?",
+      "question": "What is the most expensive NFT sold to date?",
       "answers": [
-        "The Great Pyramid of Giza",
-        "The Statue of Zeus at Olympia",
-        "The Parthenon",
-        "The Colossus of Rhodes"
+          "A digital artwork by Beeple",
+          "A tweet by Elon Musk",
+          "A virtual real estate property in Decentraland"
       ],
-      "correctAnswer": "The Parthenon"
+      "correctAnswer": "A digital artwork by Beeple"
+    },
+    {
+      "question": "What is the advantage of using NFTs over traditional copyright laws for digital assets?",
+      "answers": [
+          "NFTs provide stronger legal protection for the owner of the asset",
+          "NFTs are cheaper and easier to obtain than traditional copyright registration",
+          "There is no advantage; traditional copyright laws are still the best way to protect digital assets"
+      ],
+      "correctAnswer": "NFTs provide stronger legal protection for the owner of the asset"
     }
   ],
 
