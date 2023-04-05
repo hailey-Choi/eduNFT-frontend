@@ -29,7 +29,6 @@ module.exports = {
         "5xl": "2.5rem",
       },
       fontFamily: {
-        sans: ["ui-monospace", ...defaultTheme.fontFamily.sans],
         mono: ['"Courier New"', ...defaultTheme.fontFamily.mono],
       },
       maxWidth: {
