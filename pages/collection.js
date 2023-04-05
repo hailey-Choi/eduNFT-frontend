@@ -6,7 +6,7 @@ import Caver from "caver-js";
 import CollectionView from "../components/CollectionView";
 import { ProgressBar } from "react-loader-spinner";
 import { useAppContext } from "../components/AppContext";
-const pinataEndpoint = "https://gateway.pinata.cloud/ipfs/";
+const pinataEndpoint = "https://cors-anywhere.herokuapp.com/https://gateway.pinata.cloud/ipfs/";
 
 /**
  * TODO: 민팅하고 나서 콜렉션 페이지에 이미지 바로 로딩안됌 (i think metadata loading issue)
