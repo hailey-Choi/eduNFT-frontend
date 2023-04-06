@@ -3,7 +3,8 @@ import Caver from 'caver-js'
 import { contractABI, contractAddress } from '../klaytn/contract'
 import { useState, useEffect } from 'react'
 
-const pinataEndpoint = 'https://gateway.pinata.cloud/ipfs/'
+const pinataEndpoint =
+    'https://cors-anywhere.herokuapp.com/https://gateway.pinata.cloud/ipfs/'
 const tabs = [
     'My EduNFTs',
     'My EduNFTs on Listing',
@@ -27,9 +28,21 @@ export default function CollectionTable({ metadata, selectedTab }) {
         if (selectedTab === tabs[0] && data.currentlyListed == false) {
             setNftListing(data.tokenId)
         }
-        // cancle lit clicked, call unlistNFT function from the smart contract
-        if (selectedTab === tabs[1]) {
+        // cancel list clicked, call unlistNFT function from the smart contract
+        else if (selectedTab === tabs[1]) {
             unlistNFT(data.tokenId)
+        }
+        // Buy NFT clicked, call purchaseNFT function from the smart contract
+        else if (
+            !(
+                (selectedTab === tabs[0] && data.currentlyListed == true) ||
+                (selectedTab === tabs[2] &&
+                    data.seller.toUpperCase() == account.toUpperCase()) ||
+                (selectedTab === tabs[3] &&
+                    data.seller.toUpperCase() == account.toUpperCase())
+            )
+        ) {
+            console.log('Buying!!!')
         }
     }
 
