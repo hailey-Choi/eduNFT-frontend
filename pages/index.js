@@ -1,3 +1,4 @@
+import { useAppContext } from '../components/AppContext'
 import { Container } from '../components/Container'
 import { Button } from '../components/Button'
 import Layout from '../components/layout'
@@ -7,6 +8,8 @@ import Image from 'next/image'
 
 export default function Home() {
     const [textInput, setTextInput] = useState('')
+    const walletContext = useAppContext()
+
     return (
         <Layout home>
             <Container>
@@ -86,21 +89,33 @@ export default function Home() {
                                     setTextInput(e.target.value)
                                 }}
                             />
-                            <Link
-                                href={{
-                                    pathname: '/dall-e',
-                                    query: {
-                                        keyword: textInput,
-                                    },
-                                }}
-                            >
+                            {walletContext.wallet ? (
+                                <Link
+                                    href={{
+                                        pathname: '/dall-e',
+                                        query: {
+                                            keyword: textInput,
+                                        },
+                                    }}
+                                >
+                                    <Button
+                                        className="p- text-s mt-2 ml-2"
+                                        disabled={textInput.length === 0}
+                                    >
+                                        Generate
+                                    </Button>
+                                </Link>
+                            ) : (
                                 <Button
                                     className="p- text-s mt-2 ml-2"
-                                    disabled={textInput.length <= 10}
+                                    disabled={textInput.length === 0}
+                                    onClick={() => {
+                                        alert('Connect wallet first!')
+                                    }}
                                 >
                                     Generate
                                 </Button>
-                            </Link>
+                            )}
                         </div>
                     </div>
                 </div>
