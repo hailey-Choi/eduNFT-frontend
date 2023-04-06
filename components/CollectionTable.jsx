@@ -20,7 +20,6 @@ export default function CollectionTable({ metadata, selectedTab }) {
         const provider = window['klaytn']
         const account = provider.selectedAddress
         setAccount(account)
-        console.log(account)
     }, [])
 
     const handleClick = (data) => {

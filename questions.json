@@ -121,127 +121,114 @@
         }
     ],
 
-    "history": [
+    "ai": [
         {
-            "question": "When were the first Olympic games held?",
-            "answers": ["772 BC", "1896 AD", "776 BC", "692 BC"],
-            "correctAnswer": "776 BC"
-        },
-        {
-            "question": "What was the capital city of the Byzantine Empire?",
-            "answers": ["Rome", "Constantinople", "Pompeii", "Antioch"],
-            "correctAnswer": "Constantinople"
-        },
-        {
-            "question": "In Greek mythology, where did the gods live?",
+            "question": "What does AI stand for?",
             "answers": [
-                "Mount Olympus",
-                "The Elysian Fields",
-                "Mount Othrys",
-                "Mount Ida"
+                "Artificial Imagination",
+                "Automated Intelligence",
+                "Artificial Intelligence"
             ],
-            "correctAnswer": "Mount Olympus"
+            "correctAnswer": "Artificial Intelligence"
         },
         {
-            "question": "Who was Otto von Bismarck?",
+            "question": "What is the primary goal of AI?",
             "answers": [
-                "A German general during World War 1",
-                "An Austrian prince",
-                "The first German chancellor",
-                "A Swiss scientist"
+                "To simulate human thought and behavior",
+                "To replace human workers in various industries",
+                "To create sentient beings"
             ],
-            "correctAnswer": "The first German chancellor"
+            "correctAnswer": "To simulate human thought and behavior"
         },
         {
-            "question": "What was the largest empire in history?",
+            "question": "What is machine learning?",
             "answers": [
-                "The Mongol Empire",
-                "The Roman Empire",
-                "The Russian Empire",
-                "The British Empire"
+                "A type of software used to build AI models",
+                "A type of hardware used in AI systems",
+                "A type of data analysis used to train AI models"
             ],
-            "correctAnswer": "The British Empire"
-        }
-    ],
-
-    "science": [
+            "correctAnswer": "A type of data analysis used to train AI models"
+        },
         {
-            "question": "What does the mass number of an atom indicate?",
+            "question": "What is deep learning?",
             "answers": [
-                "The number of protons",
-                "The number of neutrons",
-                "The number of protons and neutrons",
-                "The number of electrons"
+                "A type of AI system that uses neural networks with many layers",
+                "A type of AI system that uses decision trees to make predictions",
+                "A type of AI system that uses rule-based systems to make decisions"
             ],
-            "correctAnswer": "The number of protons and neutrons"
+            "correctAnswer": "A type of AI system that uses neural networks with many layers"
         },
         {
-            "question": "How many bones are there in the human body?",
-            "answers": ["216", "206", "208", "214"],
-            "correctAnswer": "206"
-        },
-        {
-            "question": "The force acting on an object due to gravity is:",
+            "question": "What is natural language processing?",
             "answers": [
-                "Weight",
-                "Mass",
-                "Gravitational acceleration",
-                "Moment"
+                "A type of AI system that can understand and generate human language",
+                "A type of AI system that can recognize and identify objects in images",
+                "A type of AI system that can analyze and predict financial data"
             ],
-            "correctAnswer": "Weight"
+            "correctAnswer": "A type of AI system that can understand and generate human language"
         },
         {
-            "question": "What is the chemical symbol of iron?",
-            "answers": ["Io", "Fe", "Sn", "Ir"],
-            "correctAnswer": "Fe"
-        },
-        {
-            "question": "What is the largest bone in the human body?",
-            "answers": ["Tibia", "Fibula", "Humerus", "Femur"],
-            "correctAnswer": "Femur"
-        }
-    ],
-
-    "space": [
-        {
-            "question": "Which planet does the moon Europa orbit?",
-            "answers": ["Saturn", "Jupiter", "Uranus", "Mars"],
-            "correctAnswer": "Jupiter"
-        },
-        {
-            "question": "How old is the universe?",
+            "question": "What is the Turing test?",
             "answers": [
-                "13.77 billion years",
-                "4.55 billion years",
-                "12.65 billion years",
-                "6.78 billion years"
+                "A test to determine if a machine is capable of exhibiting human-like intelligence",
+                "A test to determine if a machine is capable of self-awareness",
+                "A test to determine if a machine is capable of making ethical decisions"
             ],
-            "correctAnswer": "13.77 billion years"
+            "correctAnswer": "A test to determine if a machine is capable of exhibiting human-like intelligence"
         },
         {
-            "question": "Who was the first person in space?",
+            "question": "What is a chatbot?",
             "answers": [
-                "Neil Armstrong",
-                "Alan Shepard",
-                "Buzz Aldrin",
-                "Yuri Gagarin"
+                "An AI system that can hold a conversation with a human",
+                "An AI system that can drive a car autonomously",
+                "An AI system that can diagnose medical conditions"
             ],
-            "correctAnswer": "Yuri Gagarin"
+            "correctAnswer": "An AI system that can hold a conversation with a human"
         },
         {
-            "question": "What is the tallest mountain in the solar system?",
+            "question": "What is reinforcement learning?",
             "answers": [
-                "Mount Everest",
-                "Mauna Kea",
-                "Olympus Mons",
-                "Haleakala"
+                "A type of machine learning where an agent learns by interacting with an environment",
+                "A type of machine learning where an agent learns by receiving feedback from a human",
+                "A type of machine learning where an agent learns by memorizing patterns in data"
             ],
-            "correctAnswer": "Olympus Mons"
+            "correctAnswer": "A type of machine learning where an agent learns by interacting with an environment"
         },
         {
-            "question": "What planet in the solar system has no moons?",
-            "answers": ["Mars", "Mercury", "Venus", "Neptune"],
-            "correctAnswer": "Mercury"
+            "question": "What is the difference between supervised and unsupervised learning?",
+            "answers": [
+                "Supervised learning requires labeled data, while unsupervised learning does not",
+                "Supervised learning uses deep neural networks, while unsupervised learning uses decision trees",
+                "Supervised learning requires human input, while unsupervised learning is fully automated"
+            ],
+            "correctAnswer": "Supervised learning requires labeled data, while unsupervised learning does not"
+        },
+        {
+            "question": "What is computer vision?",
+            "answers": [
+                "A type of AI system that can recognize and analyze images and videos",
+                "A type of AI system that can play games like chess and Go",
+                "A type of AI system that can generate new artwork and music"
+            ],
+            "correctAnswer": "A type of AI system that can recognize and analyze images and videos"
+        },
+        {
+            "question": "What is the Singularity?",
+            "answers": [
+                "A hypothetical point in time when AI surpasses human intelligence and becomes self-improving",
+                "A type of AI system that can predict natural disasters",
+                "A type of AI system that can diagnose mental health conditions"
+            ],
+            "correctAnswer": "A hypothetical point in time when AI surpasses human intelligence and becomes self-improving"
+        },
+        {
+            "question": "What is the difference between strong AI and weak AI?",
+            "answers": [
+                "Strong AI is capable of human-like thought and consciousness, while weak AI is not",
+                "Strong AI is used for complex tasks like medical diagnosis, while weak AI is used for simple tasks like spam filtering",
+                "Strong AI requires massive amounts of computing power, while weak AI can run on a single computer"
+            ],
+            "correctAnswer": "Strong AI is capable of human-like thought and consciousness, while weak AI is not"
         }
     ]
 }

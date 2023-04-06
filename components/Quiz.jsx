@@ -1,8 +1,11 @@
+import { useState } from 'react'
 import AnswerCard from '../components/AnswerCard'
 import questions from '../questions.json'
 
 export default function Quiz(props) {
-    const randomIndex = Math.floor(Math.random() * questions.nft.length)
+    const [randomIndex, _] = useState(
+        Math.floor(Math.random() * questions.nft.length),
+    )
     const question = questions.nft[randomIndex].question
     const answers = questions.nft[randomIndex].answers
     const correctAnswer = questions.nft[randomIndex].correctAnswer
