@@ -8,6 +8,7 @@ import { Button } from '../components/Button'
 import Caver from 'caver-js'
 import { contractABI, contractAddress } from '../klaytn/contract'
 import Quiz from '../components/Quiz'
+import { AIEduContents } from '../components/AIEduContents'
 
 // TODO : Minting button loading 중일때 disable 하기 (안하면 누른만큼 민팅됌)
 
@@ -116,10 +117,10 @@ export default function DallE() {
         <Layout>
             <div>
                 <Container>
-                    <div className="mx-auto max-w-2xl lg:mx-0">
+                    <div className="mx-auto mt-5 mb-10">
                         <h2
                             id="speakers-title"
-                            className=" text-2xl font-medium tracking-tighter text-blue-600 sm:text-2xl"
+                            className=" text-4xl font-bold text-blue-600 text-center"
                         >
                             Dall-E Image Generation
                         </h2>
@@ -140,8 +141,9 @@ export default function DallE() {
                             </>
                         ) : !quizPassed ? (
                             <div>
+                                <AIEduContents />
                                 <Quiz onClick={handleSelectAnswer} />
-                                <div className="flex">
+                                <div className="flex mb-10">
                                     <Button
                                         onClick={() => {
                                             isCorrectAnswer
