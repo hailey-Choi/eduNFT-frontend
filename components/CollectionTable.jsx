@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 
 const pinataEndpoint =
     'https://cors-anywhere.herokuapp.com/https://gateway.pinata.cloud/ipfs/'
+// TODO: img tag src 로는 코스 안되나
 const tabs = [
     'My EduNFTs',
     'My EduNFTs on Listing',

@@ -19,14 +19,15 @@ export default function DallE() {
     const [selectedImageUrl, setSelectedImageUrl] = useState(null)
     const [nftName, setNftName] = useState(null)
     const [nftDesc, setNftDesc] = useState(null)
-    const [loading, setLoading] = useState(false)
+    const [dallELoading, setDallELoading] = useState(false)
+    const [mintLoading, setMintLoading] = useState(false)
     const [showModal, setShowModal] = useState(false)
     const [isCorrectAnswer, setIsCorrectAnswer] = useState(false)
     const [quizPassed, setQuizPassed] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
-            setLoading(true)
+            setDallELoading(true)
             try {
                 const response = await axios.post(
                     'https://f5omod4tyb.execute-api.ap-northeast-2.amazonaws.com/v1/api/dall-e',
@@ -39,7 +40,7 @@ export default function DallE() {
             } catch (e) {
                 console.log(e)
             }
-            setLoading(false)
+            setDallELoading(false)
         }
         fetchData()
     }, [])
@@ -70,7 +71,7 @@ export default function DallE() {
         if (!account) {
             alert('Please Connect Your Wallet First!')
         } else {
-            setLoading(true)
+            setMintLoading(true)
             const tokenURI = await uploadToIpfs()
             try {
                 const gasAmount = await myContract.methods
@@ -91,7 +92,7 @@ export default function DallE() {
                 console.log(error)
                 alert('Minting Failed!')
             }
-            setLoading(false)
+            setMintLoading(false)
         }
     }
 
@@ -126,8 +127,8 @@ export default function DallE() {
                         </h2>
                     </div>
                     <div>
-                        {loading ? (
-                            <>
+                        {mintLoading ? (
+                            <div className="grid place-items-center mt-20">
                                 <ProgressBar
                                     height="80"
                                     width="80"
@@ -138,7 +139,7 @@ export default function DallE() {
                                     barColor="#51E5FF"
                                 />
                                 Minting your NFT...
-                            </>
+                            </div>
                         ) : !quizPassed ? (
                             <div>
                                 <AIEduContents />
@@ -152,14 +153,14 @@ export default function DallE() {
                                             setIsCorrectAnswer(false)
                                         }}
                                         className={
-                                            loading
+                                            dallELoading
                                                 ? ' bg-gray-400 hover:bg-gray-400 active:text-white'
                                                 : ''
                                         }
                                     >
                                         Submit
                                     </Button>
-                                    {loading ? (
+                                    {dallELoading ? (
                                         <ColorRing
                                             visible={true}
                                             height="40"
@@ -173,7 +174,7 @@ export default function DallE() {
                                         <></>
                                     )}
                                     <p className="my-auto ml-2 text-gray-500">
-                                        {loading
+                                        {dallELoading
                                             ? 'Generating Dall-E Images...'
                                             : 'All set! Submit the answer to see the generated images.'}
                                     </p>
@@ -193,7 +194,7 @@ export default function DallE() {
                                                     key={i}
                                                     className="group relative"
                                                 >
-                                                    <div className="h-96 w-full overflow-hidden rounded-lg group-hover:opacity-75 sm:aspect-w-2 sm:aspect-h-3 sm:h-auto mb-4">
+                                                    <div className="h-96 w-full overflow-hidden rounded-lg group-hover:opacity-75 mb-4">
                                                         <img
                                                             src={image.url}
                                                             alt="new"
