@@ -18,9 +18,13 @@ export default function Layout({ children }) {
     const [openModal, setOpenModal] = useState(false)
     const walletContext = useAppContext()
 
-    const handleCloseModal = () => {
+    const handleUnderstoodModal = () => {
         setOpenModal(false)
         connectWallet()
+    }
+
+    const handleCloseModal = () => {
+        setOpenModal(false)
     }
 
     useEffect(() => {
@@ -131,6 +135,7 @@ export default function Layout({ children }) {
                 <Modal
                     title={'How to connect wallet'}
                     type={'connectWalletInfo'}
+                    handleUnderstood={() => handleUnderstoodModal()}
                     handleClose={() => handleCloseModal()}
                 />
             ) : (
