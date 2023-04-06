@@ -42,7 +42,7 @@ export default function Home() {
                                         width="300"
                                         height="400"
                                     />
-                                    <figcaption>
+                                    <figcaption className="mt-1 italic text-sm text-gray-500">
                                         "A rapping cat in a comic-style"
                                     </figcaption>
                                 </figure>
@@ -53,7 +53,7 @@ export default function Home() {
                                         width="300"
                                         height="400"
                                     />
-                                    <figcaption>
+                                    <figcaption className="mt-1 italic text-sm text-gray-500">
                                         "Funky skull is playing an electric
                                         guitar"
                                     </figcaption>
