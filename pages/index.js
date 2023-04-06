@@ -4,9 +4,12 @@ import Layout from "../components/layout";
 import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
+import { useAppContext } from "../components/AppContext";
 
 export default function Home() {
   const [textInput, setTextInput] = useState("");
+  const walletContext = useAppContext();
+
   return (
     <Layout home>
       <Container>
@@ -74,16 +77,29 @@ export default function Home() {
                 />
               </div>
             </div>
-            <Link
-              href={{
-                pathname: "/dall-e",
-                query: {
-                  keyword: textInput,
-                },
-              }}
-            >
-              <Button className="p-4 text-s mt-2 ml-2"> Generate Images</Button>
-            </Link>
+            {walletContext.wallet ? (
+              <Link
+                href={{
+                  pathname: "/dall-e",
+                  query: {
+                    keyword: textInput,
+                  },
+                }}
+              >
+                <Button className="p-4 text-s mt-2 ml-2">
+                  Generate Images
+                </Button>
+              </Link>
+            ) : (
+              <Button
+                className="p-4 text-s mt-2 ml-2"
+                onClick={() => {
+                  alert("Connect wallet first!");
+                }}
+              >
+                Generate Images
+              </Button>
+            )}
           </div>
         </div>
       </Container>
