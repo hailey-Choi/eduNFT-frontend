@@ -67,7 +67,7 @@ export default function Home() {
                             and generate an image you can turn into an NFT.
                         </p>
                     </div>
-                    <div className="flex flex-col items-center text-center mt-10 mb-24">
+                    <div className="flex flex-col items-center text-center mt-10 mb-24 mx-20">
                         <label
                             htmlFor="textinput"
                             className="block text-lg font-medium text-gray-700"
