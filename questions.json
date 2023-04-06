@@ -1,205 +1,247 @@
 {
-  "nft": [
-    {
-        "question": "What does NFT stand for?",
-        "answers": ["Non-Fungible Token", "Non-Financial Transaction", "National Football Team"],
-        "correctAnswer": "Non-Fungible Token"
-    },
-    {
-        "question": "Which blockchain technology is commonly used for NFTs?",
-        "answers": ["Bitcoin", "Ethereum", "Ripple"],
-        "correctAnswer": "Ethereum"
-    },
-    {
-        "question": "What type of digital assets can be turned into NFTs?",
-        "answers": ["Music", "Artwork", "Both a and b"],
-        "correctAnswer": "Both a and b"
-    },
-    {
-        "question": "What is the main benefit of NFTs?",
-        "answers": ["They can be easily duplicated", "They can be traded without a central authority", "They can be used as a currency"],
-        "correctAnswer": "They can be traded without a central authority"
-    },
-    {
-        "question": "What is the process of creating an NFT called?",
-        "answers": ["Minting", "Printing", "Producing"],
-        "correctAnswer": "Minting"
-    },
-    {
-        "question": "What determines the value of an NFT?",
-        "answers": ["The rarity of the underlying asset", "The popularity of the creator", "The number of transactions it has been involved in"],
-        "correctAnswer": "The rarity of the underlying asset"
-    },
-    {
-        "question": "What is the primary use of NFTs?",
-        "answers": ["To create digital currencies", "To establish ownership of digital assets", "To facilitate online transactions"],
-        "correctAnswer": "To establish ownership of digital assets"
-    },
-    {
-        "question": "What happens when an NFT is sold?",
-        "answers": ["The buyer gains ownership of the underlying asset", "The seller retains ownership of the underlying asset", "The underlying asset is destroyed"],
-        "correctAnswer": "The buyer gains ownership of the underlying asset"
-    },
-    {
-      "question": "Which industry has seen a surge in NFT usage?",
-      "answers": ["Music", "Fashion", "Real estate"],
-      "correctAnswer": "Music"
-    },
-    {
-        "question": "Can NFTs be used for physical assets?",
-        "answers": ["Yes, but only for certain types of assets", "No, NFTs are strictly for digital assets", "Yes, for any type of asset."],
-        "correctAnswer": "Yes, but only for certain types of assets"
-    },
-    {
-        "question": "What is the difference between a fungible and non-fungible asset?",
-        "answers": ["Fungible assets can be divided into smaller parts, while non-fungible assets cannot", "Fungible assets are physical, while non-fungible assets are digital", "Fungible assets have a fixed value, while non-fungible assets can vary in value"],
-        "correctAnswer": "Fungible assets can be divided into smaller parts, while non-fungible assets cannot"
-    },
-    {
-        "question": "Can NFTs be used to prove ownership of physical assets?",
-        "answers": ["Yes, as long as the asset is unique and has a digital representation", "No, NFTs can only be used for digital assets", "It depends on the type of physical asset and the specific NFT platform"],
-        "correctAnswer": "Yes, as long as the asset is unique and has a digital representation"
-    },
-    {
-      "question": "How are NFTs typically bought and sold?",
-      "answers": [
-          "Through traditional auction houses",
-          "Through specialized NFT marketplaces",
-          "Through social media platforms like Instagram and Twitter"
-      ],
-      "correctAnswer": "Through specialized NFT marketplaces"
-    },
-    {
-      "question": "What is the most expensive NFT sold to date?",
-      "answers": [
-          "A digital artwork by Beeple",
-          "A tweet by Elon Musk",
-          "A virtual real estate property in Decentraland"
-      ],
-      "correctAnswer": "A digital artwork by Beeple"
-    },
-    {
-      "question": "What is the advantage of using NFTs over traditional copyright laws for digital assets?",
-      "answers": [
-          "NFTs provide stronger legal protection for the owner of the asset",
-          "NFTs are cheaper and easier to obtain than traditional copyright registration",
-          "There is no advantage; traditional copyright laws are still the best way to protect digital assets"
-      ],
-      "correctAnswer": "NFTs provide stronger legal protection for the owner of the asset"
-    }
-  ],
+    "nft": [
+        {
+            "question": "What does NFT stand for?",
+            "answers": [
+                "Non-Fungible Token",
+                "Non-Financial Transaction",
+                "National Football Team"
+            ],
+            "correctAnswer": "Non-Fungible Token"
+        },
+        {
+            "question": "Which blockchain technology is commonly used for NFTs?",
+            "answers": ["Bitcoin", "Ethereum", "Ripple"],
+            "correctAnswer": "Ethereum"
+        },
+        {
+            "question": "What type of digital assets can be turned into NFTs?",
+            "answers": ["Music", "Artwork", "Both a and b"],
+            "correctAnswer": "Both a and b"
+        },
+        {
+            "question": "What is the main benefit of NFTs?",
+            "answers": [
+                "They can be easily duplicated",
+                "They can be traded without a central authority",
+                "They can be used as a currency"
+            ],
+            "correctAnswer": "They can be traded without a central authority"
+        },
+        {
+            "question": "What is the process of creating an NFT called?",
+            "answers": ["Minting", "Printing", "Producing"],
+            "correctAnswer": "Minting"
+        },
+        {
+            "question": "What determines the value of an NFT?",
+            "answers": [
+                "The rarity of the underlying asset",
+                "The popularity of the creator",
+                "The number of transactions it has been involved in"
+            ],
+            "correctAnswer": "The rarity of the underlying asset"
+        },
+        {
+            "question": "What is the primary use of NFTs?",
+            "answers": [
+                "To create digital currencies",
+                "To establish ownership of digital assets",
+                "To facilitate online transactions"
+            ],
+            "correctAnswer": "To establish ownership of digital assets"
+        },
+        {
+            "question": "What happens when an NFT is sold?",
+            "answers": [
+                "The buyer gains ownership of the underlying asset",
+                "The seller retains ownership of the underlying asset",
+                "The underlying asset is destroyed"
+            ],
+            "correctAnswer": "The buyer gains ownership of the underlying asset"
+        },
+        {
+            "question": "Which industry has seen a surge in NFT usage?",
+            "answers": ["Music", "Fashion", "Real estate"],
+            "correctAnswer": "Music"
+        },
+        {
+            "question": "Can NFTs be used for physical assets?",
+            "answers": [
+                "Yes, but only for certain types of assets",
+                "No, NFTs are strictly for digital assets",
+                "Yes, for any type of asset."
+            ],
+            "correctAnswer": "Yes, but only for certain types of assets"
+        },
+        {
+            "question": "What is the difference between a fungible and non-fungible asset?",
+            "answers": [
+                "Fungible assets can be divided into smaller parts, while non-fungible assets cannot",
+                "Fungible assets are physical, while non-fungible assets are digital",
+                "Fungible assets have a fixed value, while non-fungible assets can vary in value"
+            ],
+            "correctAnswer": "Fungible assets can be divided into smaller parts, while non-fungible assets cannot"
+        },
+        {
+            "question": "Can NFTs be used to prove ownership of physical assets?",
+            "answers": [
+                "Yes, as long as the asset is unique and has a digital representation",
+                "No, NFTs can only be used for digital assets",
+                "It depends on the type of physical asset and the specific NFT platform"
+            ],
+            "correctAnswer": "Yes, as long as the asset is unique and has a digital representation"
+        },
+        {
+            "question": "How are NFTs typically bought and sold?",
+            "answers": [
+                "Through traditional auction houses",
+                "Through specialized NFT marketplaces",
+                "Through social media platforms like Instagram and Twitter"
+            ],
+            "correctAnswer": "Through specialized NFT marketplaces"
+        },
+        {
+            "question": "What is the most expensive NFT sold to date?",
+            "answers": [
+                "A digital artwork by Beeple",
+                "A tweet by Elon Musk",
+                "A virtual real estate property in Decentraland"
+            ],
+            "correctAnswer": "A digital artwork by Beeple"
+        },
+        {
+            "question": "What is the advantage of using NFTs over traditional copyright laws for digital assets?",
+            "answers": [
+                "NFTs provide stronger legal protection for the owner of the asset",
+                "NFTs are cheaper and easier to obtain than traditional copyright registration",
+                "There is no advantage; traditional copyright laws are still the best way to protect digital assets"
+            ],
+            "correctAnswer": "NFTs provide stronger legal protection for the owner of the asset"
+        }
+    ],
 
-  "history": [
-    {
-      "question": "When were the first Olympic games held?",
-      "answers": ["772 BC", "1896 AD", "776 BC", "692 BC"],
-      "correctAnswer": "776 BC"
-    },
-    {
-      "question": "What was the capital city of the Byzantine Empire?",
-      "answers": ["Rome", "Constantinople", "Pompeii", "Antioch"],
-      "correctAnswer": "Constantinople"
-    },
-    {
-      "question": "In Greek mythology, where did the gods live?",
-      "answers": [
-        "Mount Olympus",
-        "The Elysian Fields",
-        "Mount Othrys",
-        "Mount Ida"
-      ],
-      "correctAnswer": "Mount Olympus"
-    },
-    {
-      "question": "Who was Otto von Bismarck?",
-      "answers": [
-        "A German general during World War 1",
-        "An Austrian prince",
-        "The first German chancellor",
-        "A Swiss scientist"
-      ],
-      "correctAnswer": "The first German chancellor"
-    },
-    {
-      "question": "What was the largest empire in history?",
-      "answers": [
-        "The Mongol Empire",
-        "The Roman Empire",
-        "The Russian Empire",
-        "The British Empire"
-      ],
-      "correctAnswer": "The British Empire"
-    }
-  ],
+    "history": [
+        {
+            "question": "When were the first Olympic games held?",
+            "answers": ["772 BC", "1896 AD", "776 BC", "692 BC"],
+            "correctAnswer": "776 BC"
+        },
+        {
+            "question": "What was the capital city of the Byzantine Empire?",
+            "answers": ["Rome", "Constantinople", "Pompeii", "Antioch"],
+            "correctAnswer": "Constantinople"
+        },
+        {
+            "question": "In Greek mythology, where did the gods live?",
+            "answers": [
+                "Mount Olympus",
+                "The Elysian Fields",
+                "Mount Othrys",
+                "Mount Ida"
+            ],
+            "correctAnswer": "Mount Olympus"
+        },
+        {
+            "question": "Who was Otto von Bismarck?",
+            "answers": [
+                "A German general during World War 1",
+                "An Austrian prince",
+                "The first German chancellor",
+                "A Swiss scientist"
+            ],
+            "correctAnswer": "The first German chancellor"
+        },
+        {
+            "question": "What was the largest empire in history?",
+            "answers": [
+                "The Mongol Empire",
+                "The Roman Empire",
+                "The Russian Empire",
+                "The British Empire"
+            ],
+            "correctAnswer": "The British Empire"
+        }
+    ],
 
-  "science": [
-    {
-      "question": "What does the mass number of an atom indicate?",
-      "answers": [
-        "The number of protons",
-        "The number of neutrons",
-        "The number of protons and neutrons",
-        "The number of electrons"
-      ],
-      "correctAnswer": "The number of protons and neutrons"
-    },
-    {
-      "question": "How many bones are there in the human body?",
-      "answers": ["216", "206", "208", "214"],
-      "correctAnswer": "206"
-    },
-    {
-      "question": "The force acting on an object due to gravity is:",
-      "answers": ["Weight", "Mass", "Gravitational acceleration", "Moment"],
-      "correctAnswer": "Weight"
-    },
-    {
-      "question": "What is the chemical symbol of iron?",
-      "answers": ["Io", "Fe", "Sn", "Ir"],
-      "correctAnswer": "Fe"
-    },
-    {
-      "question": "What is the largest bone in the human body?",
-      "answers": ["Tibia", "Fibula", "Humerus", "Femur"],
-      "correctAnswer": "Femur"
-    }
-  ],
+    "science": [
+        {
+            "question": "What does the mass number of an atom indicate?",
+            "answers": [
+                "The number of protons",
+                "The number of neutrons",
+                "The number of protons and neutrons",
+                "The number of electrons"
+            ],
+            "correctAnswer": "The number of protons and neutrons"
+        },
+        {
+            "question": "How many bones are there in the human body?",
+            "answers": ["216", "206", "208", "214"],
+            "correctAnswer": "206"
+        },
+        {
+            "question": "The force acting on an object due to gravity is:",
+            "answers": [
+                "Weight",
+                "Mass",
+                "Gravitational acceleration",
+                "Moment"
+            ],
+            "correctAnswer": "Weight"
+        },
+        {
+            "question": "What is the chemical symbol of iron?",
+            "answers": ["Io", "Fe", "Sn", "Ir"],
+            "correctAnswer": "Fe"
+        },
+        {
+            "question": "What is the largest bone in the human body?",
+            "answers": ["Tibia", "Fibula", "Humerus", "Femur"],
+            "correctAnswer": "Femur"
+        }
+    ],
 
-  "space": [
-    {
-      "question": "Which planet does the moon Europa orbit?",
-      "answers": ["Saturn", "Jupiter", "Uranus", "Mars"],
-      "correctAnswer": "Jupiter"
-    },
-    {
-      "question": "How old is the universe?",
-      "answers": [
-        "13.77 billion years",
-        "4.55 billion years",
-        "12.65 billion years",
-        "6.78 billion years"
-      ],
-      "correctAnswer": "13.77 billion years"
-    },
-    {
-      "question": "Who was the first person in space?",
-      "answers": [
-        "Neil Armstrong",
-        "Alan Shepard",
-        "Buzz Aldrin",
-        "Yuri Gagarin"
-      ],
-      "correctAnswer": "Yuri Gagarin"
-    },
-    {
-      "question": "What is the tallest mountain in the solar system?",
-      "answers": ["Mount Everest", "Mauna Kea", "Olympus Mons", "Haleakala"],
-      "correctAnswer": "Olympus Mons"
-    },
-    {
-      "question": "What planet in the solar system has no moons?",
-      "answers": ["Mars", "Mercury", "Venus", "Neptune"],
-      "correctAnswer": "Mercury"
-    }
-  ]
+    "space": [
+        {
+            "question": "Which planet does the moon Europa orbit?",
+            "answers": ["Saturn", "Jupiter", "Uranus", "Mars"],
+            "correctAnswer": "Jupiter"
+        },
+        {
+            "question": "How old is the universe?",
+            "answers": [
+                "13.77 billion years",
+                "4.55 billion years",
+                "12.65 billion years",
+                "6.78 billion years"
+            ],
+            "correctAnswer": "13.77 billion years"
+        },
+        {
+            "question": "Who was the first person in space?",
+            "answers": [
+                "Neil Armstrong",
+                "Alan Shepard",
+                "Buzz Aldrin",
+                "Yuri Gagarin"
+            ],
+            "correctAnswer": "Yuri Gagarin"
+        },
+        {
+            "question": "What is the tallest mountain in the solar system?",
+            "answers": [
+                "Mount Everest",
+                "Mauna Kea",
+                "Olympus Mons",
+                "Haleakala"
+            ],
+            "correctAnswer": "Olympus Mons"
+        },
+        {
+            "question": "What planet in the solar system has no moons?",
+            "answers": ["Mars", "Mercury", "Venus", "Neptune"],
+            "correctAnswer": "Mercury"
+        }
+    ]
 }
