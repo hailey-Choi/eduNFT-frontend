@@ -3,12 +3,20 @@ import AnswerCard from '../components/AnswerCard'
 import questions from '../questions.json'
 
 export default function Quiz(props) {
-    const [randomIndex, _] = useState(
-        Math.floor(Math.random() * questions.nft.length),
-    )
-    const question = questions.nft[randomIndex].question
-    const answers = questions.nft[randomIndex].answers
-    const correctAnswer = questions.nft[randomIndex].correctAnswer
+    let index = null
+    let question_list = null
+    if (props.questionType == 'ai') {
+        index = Math.floor(Math.random() * questions.ai.length)
+        question_list = questions.ai
+    } else if (props.questionType == 'nft') {
+        index = Math.floor(Math.random() * questions.nft.length)
+        question_list = questions.nft
+    }
+    const [randomIndex, _] = useState(index)
+
+    const question = question_list[randomIndex].question
+    const answers = question_list[randomIndex].answers
+    const correctAnswer = question_list[randomIndex].correctAnswer
 
     return (
         <div className="pt-6 pb-2 mx-5">

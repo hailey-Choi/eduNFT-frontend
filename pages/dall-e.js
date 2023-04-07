@@ -53,7 +53,6 @@ export default function DallE() {
                     description: nftDesc,
                 },
             )
-            console.log('Response: ', response.data)
             return response.data.metadata
         } catch (e) {
             console.log(e)
@@ -140,7 +139,10 @@ export default function DallE() {
                             </>
                         ) : !quizPassed ? (
                             <div>
-                                <Quiz onClick={handleSelectAnswer} />
+                                <Quiz
+                                    onClick={handleSelectAnswer}
+                                    questionType="ai"
+                                />
                                 <div className="flex">
                                     <Button
                                         onClick={() => {
@@ -317,6 +319,7 @@ export default function DallE() {
                                                     {/*Quiz*/}
                                                     <div className="p-6 border-t border-solid border-slate-200">
                                                         <Quiz
+                                                            questionType="nft"
                                                             onClick={
                                                                 handleSelectAnswer
                                                             }
