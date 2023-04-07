@@ -3,8 +3,7 @@ import Caver from 'caver-js'
 import { contractABI, contractAddress } from '../klaytn/contract'
 import { useState, useEffect } from 'react'
 
-const pinataEndpoint =
-    'https://cors-anywhere.herokuapp.com/https://gateway.pinata.cloud/ipfs/'
+const pinataEndpoint = 'https://gateway.pinata.cloud/ipfs/'
 // TODO: img tag src 로는 코스 안되나
 const tabs = [
     'My EduNFTs',
@@ -17,11 +16,24 @@ export default function CollectionTable({ metadata, selectedTab }) {
     const [account, setAccount] = useState(null)
     const [price, setPrice] = useState(null)
     const [nftListing, setNftListing] = useState(null)
+    const [image, setImage] = useState([])
 
     useEffect(() => {
         const provider = window['klaytn']
         const account = provider.selectedAddress
         setAccount(account)
+
+        // metadata.map((data, i) => {
+        //     try {
+        //         fetch(pinataEndpoint + data.image_url.slice(7)).then(
+        //             (response) => (data.fetchedurl = response.url),
+        //         )
+        //     } catch (e) {
+        //         console.log(e)
+        //     }
+        // })
+
+        // console.log('metadata: ', metadata)
     }, [])
 
     const handleClick = (data) => {
@@ -115,6 +127,7 @@ export default function CollectionTable({ metadata, selectedTab }) {
                         : 'All NFTs in EduNFT Collection'}
                 </p>
             </div>
+
             <ul
                 role="list"
                 className="mx-auto mt-5 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3"
