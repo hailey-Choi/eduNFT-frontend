@@ -111,7 +111,6 @@ export default function DallE() {
 
     const handleSelectAnswer = (isCorrect) => {
         setIsCorrectAnswer(isCorrect)
-        console.log('iscorrect: ', isCorrect)
     }
 
     return (
@@ -289,10 +288,6 @@ export default function DallE() {
                                                                                     e
                                                                                         .target
                                                                                         .value,
-                                                                                )
-                                                                                console.log(
-                                                                                    'isCorrect: ',
-                                                                                    isCorrectAnswer,
                                                                                 )
                                                                             }}
                                                                         />

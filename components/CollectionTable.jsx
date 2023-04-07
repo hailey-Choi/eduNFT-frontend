@@ -22,18 +22,6 @@ export default function CollectionTable({ metadata, selectedTab }) {
         const provider = window['klaytn']
         const account = provider.selectedAddress
         setAccount(account)
-
-        // metadata.map((data, i) => {
-        //     try {
-        //         fetch(pinataEndpoint + data.image_url.slice(7)).then(
-        //             (response) => (data.fetchedurl = response.url),
-        //         )
-        //     } catch (e) {
-        //         console.log(e)
-        //     }
-        // })
-
-        // console.log('metadata: ', metadata)
     }, [])
 
     const handleClick = (data) => {
@@ -56,6 +44,7 @@ export default function CollectionTable({ metadata, selectedTab }) {
             )
         ) {
             console.log('Buying!!!')
+            purchaseNFT(data.tokenId, data.price)
         }
     }
 
@@ -116,6 +105,34 @@ export default function CollectionTable({ metadata, selectedTab }) {
         window.location.reload(true)
     }
 
+    const purchaseNFT = async (tokenId, price) => {
+        const provider = window['klaytn']
+        const caver = new Caver(provider)
+        const account = provider.selectedAddress
+        const myContract = new caver.klay.Contract(contractABI, contractAddress)
+        try {
+            const gasAmount = await myContract.methods
+                .purchaseNFT(tokenId)
+                .estimateGas({
+                    from: account,
+                    value: caver.utils.convertToPeb(price.toString(), 'KLAY'),
+                    gas: 6000000,
+                })
+            const result = await myContract.methods.purchaseNFT(tokenId).send({
+                from: account,
+                value: caver.utils.convertToPeb(price.toString(), 'KLAY'),
+                gas: gasAmount,
+            })
+            if (result != null) {
+                console.log(result)
+            }
+        } catch (error) {
+            console.log(error)
+            alert('Purchase Failed!')
+        }
+        window.location.reload(true)
+    }
+
     return (
         <div className="bg-white mb-6">
             <div className="mx-auto max-w-2xl lg:mx-0">
@@ -148,7 +165,7 @@ export default function CollectionTable({ metadata, selectedTab }) {
                             </p>
 
                             {nftListing == data.tokenId ? (
-                                <div className="flex flex-wrap items-center justify-center sm:justify-between lg:flex-nowrap mr-3">
+                                <div className="flex flex-wrap items-center justify-center sm:justify-between lg:flex-nowrap space-x-2 mt-3">
                                     <div className="relative mt-1 rounded-md shadow-sm">
                                         <input
                                             type="text"
@@ -170,23 +187,25 @@ export default function CollectionTable({ metadata, selectedTab }) {
                                             </span>
                                         </div>
                                     </div>
+
                                     <Button
-                                        className={'p-3 text-xs mt-2 ml-2'}
+                                        className="text-xs mt-2 ml-2 px-5"
                                         onClick={() =>
                                             listNFT(data.tokenId, price)
                                         }
                                     >
-                                        List for sale
+                                        Confirm
                                     </Button>
+
                                     <Button
-                                        className={'p-3 text-xs mt-2 '}
+                                        className={'p-3 text-xs'}
                                         onClick={() => setNftListing(null)}
                                     >
                                         Cancel
                                     </Button>
                                 </div>
                             ) : (
-                                <div className="flex flex-wrap items-center justify-center sm:justify-between lg:flex-nowrap mr-3">
+                                <div className="flex flex-wrap items-center justify-center sm:justify-between lg:flex-nowrap mr-3 mt-3">
                                     <Button
                                         className={
                                             (selectedTab === tabs[0] &&
