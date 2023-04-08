@@ -9,7 +9,7 @@ import Caver from 'caver-js'
 import { contractABI, contractAddress } from '../klaytn/contract'
 import Quiz from '../components/Quiz'
 import { AIEduContents } from '../components/AIEduContents'
-import { NFTEduContents } from '../components/NFTEduContent'
+import { NFTEduContents } from '../components/NFTEduContents'
 
 // TODO : Minting button loading 중일때 disable 하기 (안하면 누른만큼 민팅됌)
 
@@ -27,6 +27,7 @@ export default function DallE() {
     const [quizPassed, setQuizPassed] = useState(false)
 
     useEffect(() => {
+        window.scrollTo(0, 0)
         const fetchData = async () => {
             setDallELoading(true)
             try {
@@ -45,6 +46,10 @@ export default function DallE() {
         }
         fetchData()
     }, [])
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [quizPassed])
 
     const uploadToIpfs = async () => {
         try {
@@ -117,14 +122,18 @@ export default function DallE() {
         <Layout>
             <div>
                 <Container>
-                    <div className="mx-auto mt-5 mb-10">
-                        <h2
-                            id="speakers-title"
-                            className=" text-4xl font-bold text-blue-600 text-center"
-                        >
-                            Dall-E Image Generation
-                        </h2>
-                    </div>
+                    {quizPassed ? (
+                        <></>
+                    ) : (
+                        <div className="mx-auto mt-5 mb-10">
+                            <h2
+                                id="speakers-title"
+                                className=" text-4xl font-bold text-blue-600 text-center"
+                            >
+                                Dall-E Image Generation
+                            </h2>
+                        </div>
+                    )}
                     <div>
                         {mintLoading ? (
                             <div className="grid place-items-center mt-20">
@@ -186,6 +195,12 @@ export default function DallE() {
                             <div>
                                 <div>
                                     <NFTEduContents />
+                                    <hr
+                                        style={{
+                                            border: '1px solid #64748b',
+                                            margin: '10px 0',
+                                        }}
+                                    />
                                     <p className="mt-4 text-xl tracking-tight text-blue-900">
                                         Choose one from the images generated
                                         below!
@@ -227,7 +242,7 @@ export default function DallE() {
                                                     {/*header*/}
                                                     <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                                                         <h3 className="text-3xl font-semibold">
-                                                            Mint you NFT!
+                                                            Mint your NFT!
                                                         </h3>
                                                     </div>
                                                     {/*body*/}
@@ -281,7 +296,10 @@ export default function DallE() {
                                                                                 3
                                                                             }
                                                                             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                                                            placeholder="eg. This is a masterpiece!"
+                                                                            placeholder={
+                                                                                'e.g. ' +
+                                                                                data.keyword
+                                                                            }
                                                                             defaultValue={
                                                                                 ''
                                                                             }

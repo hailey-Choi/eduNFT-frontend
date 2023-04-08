@@ -230,5 +230,88 @@
             ],
             "correctAnswer": "Strong AI is capable of human-like thought and consciousness, while weak AI is not"
         }
+    ],
+
+    "nft_trading": [
+        {
+            "question": "Which platform is commonly used for buying and selling NFTs?",
+            "answers": ["Etsy", "eBay", "OpenSea", "Amazon"],
+            "correctAnswer": "OpenSea"
+        },
+        {
+            "question": "What is the primary benefit of buying NFTs?",
+            "answers": [
+                "Ownership of a unique digital asset",
+                "Access to unlimited digital content",
+                "Guaranteed financial return",
+                "Free cryptocurrency"
+            ],
+            "correctAnswer": "Ownership of a unique digital asset"
+        },
+        {
+            "question": "How are NFT prices typically determined?",
+            "answers": [
+                "Market demand and supply",
+                "Fixed value set by the creator",
+                "Randomized algorithm",
+                "Government regulation"
+            ],
+            "correctAnswer": "Market demand and supply"
+        },
+        {
+            "question": "What is the process of selling an NFT called?",
+            "answers": ["Minting", "Burning", "Listing", "Staking"],
+            "correctAnswer": "Listing"
+        },
+        {
+            "question": "What is the purpose of a reserve price in NFT auctions?",
+            "answers": [
+                "Minimum price the seller is willing to accept",
+                "Maximum price the buyer is willing to pay",
+                "Starting bid for the auction",
+                "Transaction fee for the auction"
+            ],
+            "correctAnswer": "Minimum price the seller is willing to accept"
+        },
+        {
+            "question": "What is the primary risk of buying NFTs?",
+            "answers": [
+                "Market volatility and price fluctuation",
+                "Lack of digital storage space",
+                "Limited access to digital marketplaces",
+                "Difficulty in transferring ownership"
+            ],
+            "correctAnswer": "Market volatility and price fluctuation"
+        },
+        {
+            "question": "What is a 'gas fee' in the context of NFT transactions?",
+            "answers": [
+                "Transaction fee required for processing NFT transactions",
+                "Type of cryptocurrency used for NFT transactions",
+                "Smart contract that facilitates NFT transactions",
+                "Digital wallet used for storing NFTs"
+            ],
+            "correctAnswer": "Transaction fee required for processing NFT transactions"
+        },
+        {
+            "question": "What is the key feature of NFTs that distinguishes them from other digital assets?",
+            "answers": [
+                "Unique ownership and verifiable scarcity",
+                "Ease of duplication and reproduction",
+                "Interchangeability with other tokens",
+                "Fixed value that does not change"
+            ],
+            "correctAnswer": "Unique ownership and verifiable scarcity"
+        },
+        {
+            "question": "What is the role of a smart contract in an NFT transaction?",
+            "answers": [
+                "Facilitating the buying, selling, and transferring of NFTs",
+                "Verifying the authenticity of the NFT",
+                "Determining the price of the NFT",
+                "Storing the NFT on the blockchain"
+            ],
+            "correctAnswer": "Facilitating the buying, selling, and transferring of NFTs"
+        }
     ]
 }
