@@ -1,16 +1,16 @@
 function Answer(props) {
     return (
         <div
-            className="bg-gray-100 dark:bg-gray-900 h-16 w-auto mb-4 rounded-md flex items-center"
+            className="bg-gray-900 dark:bg-gray-100 h-16 w-auto mb-4 rounded-md flex items-center"
             onClick={() => props.onClick(props.answer)}
         >
             <input
                 type="radio"
                 name="answer"
                 value={props.answer}
-                className="ml-5 dark:bg-gray-800"
+                className="ml-5 dark:bg-gray-100"
             />
-            <label className="text-gray-700 dark:text-gray-400 text-lg ml-4">
+            <label className="text-gray-200 dark:text-gray-500 text-lg ml-4">
                 {props.answer}
             </label>
         </div>
