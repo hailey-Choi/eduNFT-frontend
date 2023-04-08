@@ -1,8 +1,15 @@
 import { Button } from '../components/Button'
 import Quiz from '../components/Quiz'
 import { ConnectWalletInfo } from './ConnectWalletInfo'
+import { useState } from 'react'
 
 export function Modal(props) {
+    // const [isCorrectAnswer, setIsCorrectAnswer] = useState(false)
+
+    // const handleSelectAnswer = () => {
+    //     props.setIsCorrectAnswer(true)
+    // }
+
     return (
         <>
             <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -18,7 +25,12 @@ export function Modal(props) {
                         {/*body*/}
                         <div className="relative p-6 flex-auto my-3 text-slate-500 text-lg leading-relaxed">
                             {props.type == 'quiz' ? (
-                                <Quiz />
+                                <Quiz
+                                    questionType="nft"
+                                    onClick={(isCorrect) =>
+                                        props.setIsCorrectAnswer(isCorrect)
+                                    }
+                                />
                             ) : props.type == 'connectWalletInfo' ? (
                                 <ConnectWalletInfo />
                             ) : (

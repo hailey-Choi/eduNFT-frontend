@@ -1,7 +1,8 @@
 import { Button } from './Button'
 import Caver from 'caver-js'
 import { contractABI, contractAddress } from '../klaytn/contract'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { Modal } from './modal'
 
 const pinataEndpoint = 'https://gateway.pinata.cloud/ipfs/'
 // TODO: img tag src 로는 코스 안되나
@@ -14,9 +15,14 @@ const tabs = [
 
 export default function CollectionTable({ metadata, selectedTab }) {
     const [account, setAccount] = useState(null)
-    const [price, setPrice] = useState(null)
     const [nftListing, setNftListing] = useState(null)
-    const [image, setImage] = useState([])
+    const [showModal, setShowModal] = useState(false)
+    const [isCorrectAnswer, setIsCorrectAnswer] = useState(null)
+    const [tokenId, setTokenId] = useState(null)
+    const [price, setPrice] = useState(null)
+    const [seller, setSeller] = useState(null)
+    const [currentlyListed, setCurrentlyListed] = useState(null)
+    const inputRef = useRef(null)
 
     useEffect(() => {
         const provider = window['klaytn']
@@ -25,28 +31,52 @@ export default function CollectionTable({ metadata, selectedTab }) {
     }, [])
 
     const handleClick = (data) => {
+        setTokenId(data.tokenId)
+        setPrice(data.price)
+        setSeller(data.seller)
+        setCurrentlyListed(data.currentlyListed)
         // List for sale clicked, enable users to set the price
         if (selectedTab === tabs[0] && data.currentlyListed == false) {
             setNftListing(data.tokenId)
         }
-        // cancel list clicked, call unlistNFT function from the smart contract
-        else if (selectedTab === tabs[1]) {
-            unlistNFT(data.tokenId)
-        }
-        // Buy NFT clicked, call purchaseNFT function from the smart contract
-        else if (
-            !(
-                (selectedTab === tabs[0] && data.currentlyListed == true) ||
-                (selectedTab === tabs[2] &&
-                    data.seller.toUpperCase() == account.toUpperCase()) ||
-                (selectedTab === tabs[3] &&
-                    data.seller.toUpperCase() == account.toUpperCase())
-            )
-        ) {
-            console.log('Buying!!!')
-            purchaseNFT(data.tokenId, data.price)
+        // cancel list or buy nft clicked
+        else {
+            setShowModal(true)
         }
     }
+
+    const handleListConfirm = (data) => {
+        setShowModal(true)
+    }
+
+    const handleAnswerSubmit = () => {
+        if (isCorrectAnswer == true) {
+            if (selectedTab === tabs[1]) {
+                unlistNFT(tokenId)
+            } else if (selectedTab === tabs[0] && currentlyListed == false) {
+                listNFT(tokenId, inputRef.current.value)
+            } else if (
+                !(
+                    (selectedTab === tabs[0] && currentlyListed == true) ||
+                    (selectedTab === tabs[2] &&
+                        seller.toUpperCase() == account.toUpperCase()) ||
+                    (selectedTab === tabs[3] &&
+                        seller.toUpperCase() == account.toUpperCase())
+                )
+            ) {
+                purchaseNFT(tokenId, price)
+            }
+            setShowModal(false)
+        } else if (isCorrectAnswer == false && isCorrectAnswer != null) {
+            alert('Try again!')
+        }
+    }
+
+    const handleModalClose = () => {
+        setShowModal(false)
+    }
+
+    console.log('iscorrect: ', isCorrectAnswer)
 
     const listNFT = async (tokenId, price) => {
         const provider = window['klaytn']
@@ -174,9 +204,7 @@ export default function CollectionTable({ metadata, selectedTab }) {
                                             className="block w-full rounded-md border-gray-300 pr-5 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                             placeholder="0"
                                             aria-describedby="price-currency"
-                                            onChange={(e) => {
-                                                setPrice(e.target.value)
-                                            }}
+                                            ref={inputRef}
                                         />
                                         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                                             <span
@@ -190,9 +218,7 @@ export default function CollectionTable({ metadata, selectedTab }) {
 
                                     <Button
                                         className="text-xs mt-2 ml-2 px-5"
-                                        onClick={() =>
-                                            listNFT(data.tokenId, price)
-                                        }
+                                        onClick={() => handleListConfirm(data)}
                                     >
                                         Confirm
                                     </Button>
@@ -264,6 +290,16 @@ export default function CollectionTable({ metadata, selectedTab }) {
                                         </p>
                                     )}
                                 </div>
+                            )}
+                            {showModal ? (
+                                <Modal
+                                    type="quiz"
+                                    setIsCorrectAnswer={setIsCorrectAnswer}
+                                    handleUnderstood={handleAnswerSubmit}
+                                    handleClose={handleModalClose}
+                                />
+                            ) : (
+                                <></>
                             )}
                         </li>
                     ))
