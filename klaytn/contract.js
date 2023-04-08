@@ -1,4 +1,4 @@
-export const contractAddress = '0xc4a4D5c69FD4F50C72949CE64baF78B861a00978'
+export const contractAddress = '0xa237E1BdDFe1ceF76d0B55F023A21a00917AC0Ab'
 export const contractABI = [
     {
         inputs: [],
@@ -650,6 +650,21 @@ export const contractABI = [
         ],
         payable: false,
         stateMutability: 'view',
+        type: 'function',
+    },
+    {
+        constant: false,
+        inputs: [
+            {
+                internalType: 'uint256',
+                name: 'tokenId',
+                type: 'uint256',
+            },
+        ],
+        name: 'purchaseNFT',
+        outputs: [],
+        payable: true,
+        stateMutability: 'payable',
         type: 'function',
     },
     {

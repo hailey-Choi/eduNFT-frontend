@@ -4,6 +4,7 @@ import { contractABI, contractAddress } from '../klaytn/contract'
 import { useState, useEffect } from 'react'
 
 const pinataEndpoint = 'https://gateway.pinata.cloud/ipfs/'
+// TODO: img tag src 로는 코스 안되나
 const tabs = [
     'My EduNFTs',
     'My EduNFTs on Listing',
@@ -15,6 +16,7 @@ export default function CollectionTable({ metadata, selectedTab }) {
     const [account, setAccount] = useState(null)
     const [price, setPrice] = useState(null)
     const [nftListing, setNftListing] = useState(null)
+    const [image, setImage] = useState([])
 
     useEffect(() => {
         const provider = window['klaytn']
@@ -27,9 +29,22 @@ export default function CollectionTable({ metadata, selectedTab }) {
         if (selectedTab === tabs[0] && data.currentlyListed == false) {
             setNftListing(data.tokenId)
         }
-        // cancle lit clicked, call unlistNFT function from the smart contract
-        if (selectedTab === tabs[1]) {
+        // cancel list clicked, call unlistNFT function from the smart contract
+        else if (selectedTab === tabs[1]) {
             unlistNFT(data.tokenId)
+        }
+        // Buy NFT clicked, call purchaseNFT function from the smart contract
+        else if (
+            !(
+                (selectedTab === tabs[0] && data.currentlyListed == true) ||
+                (selectedTab === tabs[2] &&
+                    data.seller.toUpperCase() == account.toUpperCase()) ||
+                (selectedTab === tabs[3] &&
+                    data.seller.toUpperCase() == account.toUpperCase())
+            )
+        ) {
+            console.log('Buying!!!')
+            purchaseNFT(data.tokenId, data.price)
         }
     }
 
@@ -90,6 +105,34 @@ export default function CollectionTable({ metadata, selectedTab }) {
         window.location.reload(true)
     }
 
+    const purchaseNFT = async (tokenId, price) => {
+        const provider = window['klaytn']
+        const caver = new Caver(provider)
+        const account = provider.selectedAddress
+        const myContract = new caver.klay.Contract(contractABI, contractAddress)
+        try {
+            const gasAmount = await myContract.methods
+                .purchaseNFT(tokenId)
+                .estimateGas({
+                    from: account,
+                    value: caver.utils.convertToPeb(price.toString(), 'KLAY'),
+                    gas: 6000000,
+                })
+            const result = await myContract.methods.purchaseNFT(tokenId).send({
+                from: account,
+                value: caver.utils.convertToPeb(price.toString(), 'KLAY'),
+                gas: gasAmount,
+            })
+            if (result != null) {
+                console.log(result)
+            }
+        } catch (error) {
+            console.log(error)
+            alert('Purchase Failed!')
+        }
+        window.location.reload(true)
+    }
+
     return (
         <div className="bg-white mb-6">
             <div className="mx-auto max-w-2xl lg:mx-0">
@@ -101,6 +144,7 @@ export default function CollectionTable({ metadata, selectedTab }) {
                         : 'All NFTs in EduNFT Collection'}
                 </p>
             </div>
+
             <ul
                 role="list"
                 className="mx-auto mt-5 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3"
@@ -121,7 +165,7 @@ export default function CollectionTable({ metadata, selectedTab }) {
                             </p>
 
                             {nftListing == data.tokenId ? (
-                                <div className="flex flex-wrap items-center justify-center sm:justify-between lg:flex-nowrap mr-3">
+                                <div className="flex flex-wrap items-center justify-center sm:justify-between lg:flex-nowrap space-x-2 mt-3">
                                     <div className="relative mt-1 rounded-md shadow-sm">
                                         <input
                                             type="text"
@@ -143,23 +187,25 @@ export default function CollectionTable({ metadata, selectedTab }) {
                                             </span>
                                         </div>
                                     </div>
+
                                     <Button
-                                        className={'p-3 text-xs mt-2 ml-2'}
+                                        className="text-xs mt-2 ml-2 px-5"
                                         onClick={() =>
                                             listNFT(data.tokenId, price)
                                         }
                                     >
-                                        List for sale
+                                        Confirm
                                     </Button>
+
                                     <Button
-                                        className={'p-3 text-xs mt-2 '}
+                                        className={'p-3 text-xs'}
                                         onClick={() => setNftListing(null)}
                                     >
                                         Cancel
                                     </Button>
                                 </div>
                             ) : (
-                                <div className="flex flex-wrap items-center justify-center sm:justify-between lg:flex-nowrap mr-3">
+                                <div className="flex flex-wrap items-center justify-center sm:justify-between lg:flex-nowrap mr-3 mt-3">
                                     <Button
                                         className={
                                             (selectedTab === tabs[0] &&
