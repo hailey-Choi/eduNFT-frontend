@@ -9,6 +9,7 @@ import Caver from 'caver-js'
 import { contractABI, contractAddress } from '../klaytn/contract'
 import Quiz from '../components/Quiz'
 import { AIEduContents } from '../components/AIEduContents'
+import { NFTEduContents } from '../components/NFTEduContent'
 
 // TODO : Minting button loading 중일때 disable 하기 (안하면 누른만큼 민팅됌)
 
@@ -184,6 +185,7 @@ export default function DallE() {
                         ) : (
                             <div>
                                 <div>
+                                    <NFTEduContents />
                                     <p className="mt-4 text-xl tracking-tight text-blue-900">
                                         Choose one from the images generated
                                         below!

@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import YoutubeEmbed from './YoutubeEmbed'
+
 export function AIEduContents() {
     return (
         <div className=" my-5 mx-5 text-lg">
