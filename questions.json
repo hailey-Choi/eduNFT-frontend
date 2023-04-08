@@ -313,5 +313,48 @@
             ],
             "correctAnswer": "Facilitating the buying, selling, and transferring of NFTs"
         }
+    ],
+
+    "FAQs": [
+        {
+            "question": "What are NFTs?",
+            "answer": "NFTs are special digital items that show ownership of something unique, like art or music, and can be bought and sold online."
+        },
+        {
+            "question": "How are NFT prices decided?",
+            "answer": "NFT prices are decided by what people are willing to pay for them online."
+        },
+        {
+            "question": "What is a 'gas fee' in NFT transactions?",
+            "answer": "A 'gas fee' is a fee required for buying and selling NFTs online."
+        },
+        {
+            "question": "How can NFTs be bought and sold?",
+            "answer": "NFTs can be bought and sold on websites where sellers set prices or participate in auctions."
+        },
+        {
+            "question": "What is a reserve price in NFT auctions?",
+            "answer": "A reserve price is the minimum price set by the seller for an NFT in an auction."
+        },
+        {
+            "question": "Are NFT prices stable?",
+            "answer": "No, NFT prices can change a lot over time."
+        },
+        {
+            "question": "What is the role of a smart contract in NFT transactions?",
+            "answer": "Smart contracts help with buying and selling NFTs automatically."
+        },
+        {
+            "question": "What makes NFTs special?",
+            "answer": "NFTs are special because they show ownership of something unique and their ownership is stored on a special computer system called blockchain."
+        },
+        {
+            "question": "What are the risks of buying NFTs?",
+            "answer": "The main risk of buying NFTs is that their prices can change a lot over time."
+        },
+        {
+            "question": "How are NFTs stored?",
+            "answer": "NFTs are stored on a special computer system called blockchain, which keeps track of who owns them and how they are bought and sold."
+        }
     ]
 }

@@ -9,20 +9,27 @@ export function NFTEduContents() {
             <div className="space-y-5">
                 <div className="flex mr-10 space-x-5">
                     <p className="mr-10">
-                        An NFT, or non-fungible token, is a unique digital asset
-                        that represents ownership of a digital or physical item.
-                        Just like a digital certificate of ownership, an NFT is
-                        stored on the blockchain, which is a decentralized
-                        digital ledger that verifies and records transactions.
-                        NFTs can be used to buy, sell, trade, and collect
-                        digital assets like art, music, videos, and virtual
-                        goods.
+                        NFTs, or Non-Fungible Tokens, are a type of digital
+                        asset that represent ownership of a unique item or piece
+                        of content, such as digital art, music, or collectibles.
+                        NFTs are bought and sold on digital marketplaces, with
+                        OpenSea being a commonly used platform for NFT trading.
+                        <br />
+                        <br />
+                        One key difference between an image file and an NFT is
+                        that while an image file is a digital file that can be
+                        copied and shared, an NFT represents ownership of a
+                        specific instance of a digital asset and is stored on a
+                        blockchain, which is a decentralized digital ledger.
+                        This means that NFTs have a unique digital fingerprint
+                        that verifies their authenticity and ownership, making
+                        them scarce and valuable.
                     </p>
-                    <figure>
+                    <figure className="text-center">
                         <Image
                             src="/CryptoPunk.png"
-                            width="600"
-                            height="200"
+                            width="1000"
+                            height="600"
                             alt="CryptoPunk.png"
                         />
                         <figcaption className="mt-1 italic text-sm text-gray-500">
