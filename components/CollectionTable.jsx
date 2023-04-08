@@ -293,6 +293,7 @@ export default function CollectionTable({ metadata, selectedTab }) {
                             )}
                             {showModal ? (
                                 <Modal
+                                    title="Before processing your request..."
                                     type="quiz"
                                     setIsCorrectAnswer={setIsCorrectAnswer}
                                     handleUnderstood={handleAnswerSubmit}
