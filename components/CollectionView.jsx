@@ -22,7 +22,7 @@ export default function CollectionView({
     allListedMetadata,
     wallet,
 }) {
-    const [selectedTab, setSelectedTab] = useState(tabs[0])
+    const [selectedTab, setSelectedTab] = useState(tabs[4])
 
     return (
         <div>
