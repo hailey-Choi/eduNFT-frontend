@@ -3,19 +3,18 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 
 const FAQ = ({ question, answer }) => {
-    const [isOpen, setIsOpen] = useState(false)
-
-    const toggleAccordion = () => {
-        setIsOpen(!isOpen)
-    }
-
     return (
-        <div className="faq-item">
-            <div className="faq-question" onClick={toggleAccordion}>
-                {question}
-                <span className={isOpen ? 'faq-icon open' : 'faq-icon'}>+</span>
-            </div>
-            {isOpen && <div className="faq-answer">{answer}</div>}
+        <div
+            className="bg-gray-900 dark:bg-gray-100 h-28 w-auto mb-4 rounded-md flex items-center"
+        >
+            <p className="text-gray-200 dark:text-gray-500 text-lg ml-4">
+                Q) {question}
+                <br />
+                A) {answer}
+            </p>
+            {/* <label className="text-gray-200 dark:text-gray-500 text-lg ml-4">
+                {answer}
+            </label> */}
         </div>
     )
 }

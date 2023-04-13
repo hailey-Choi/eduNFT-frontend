@@ -4,11 +4,11 @@ import { FAQContents } from '../components/FAQContents'
 import { ExclamationCircleIcon } from '@heroicons/react/20/solid'
 
 const tabs = [
-    'FAQ',
     'My EduNFTs',
     'My EduNFTs on Listing',
     'All EduNFTs',
     'All EduNFTs on Listing',
+    'FAQ',
 ]
 
 function classNames(...classes) {
