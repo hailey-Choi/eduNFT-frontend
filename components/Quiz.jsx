@@ -11,7 +11,10 @@ export default function Quiz(props) {
     } else if (props.questionType == 'nft') {
         index = Math.floor(Math.random() * questions.nft.length)
         question_list = questions.nft
-    }
+    } else if (props.questionType == 'nft_trading') {
+        index = Math.floor(Math.random() * questions.nft_trading.length)
+        question_list = questions.nft_trading
+    } 
     const [randomIndex, _] = useState(index)
 
     const question = question_list[randomIndex].question

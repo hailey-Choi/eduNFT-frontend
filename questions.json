@@ -3,8 +3,8 @@
         {
             "question": "What does NFT stand for?",
             "answers": [
-                "Non-Fungible Token",
                 "Non-Financial Transaction",
+                "Non-Fungible Token",
                 "National Football Team"
             ],
             "correctAnswer": "Non-Fungible Token"
@@ -36,9 +36,9 @@
         {
             "question": "What determines the value of an NFT?",
             "answers": [
-                "The rarity of the underlying asset",
                 "The popularity of the creator",
-                "The number of transactions it has been involved in"
+                "The number of transactions it has been involved in",
+                "The rarity of the underlying asset"
             ],
             "correctAnswer": "The rarity of the underlying asset"
         },
@@ -77,8 +77,8 @@
         {
             "question": "What is the difference between a fungible and non-fungible asset?",
             "answers": [
-                "Fungible assets can be divided into smaller parts, while non-fungible assets cannot",
                 "Fungible assets are physical, while non-fungible assets are digital",
+                "Fungible assets can be divided into smaller parts, while non-fungible assets cannot",
                 "Fungible assets have a fixed value, while non-fungible assets can vary in value"
             ],
             "correctAnswer": "Fungible assets can be divided into smaller parts, while non-fungible assets cannot"
@@ -96,8 +96,8 @@
             "question": "How are NFTs typically bought and sold?",
             "answers": [
                 "Through traditional auction houses",
-                "Through specialized NFT marketplaces",
-                "Through social media platforms like Instagram and Twitter"
+                "Through social media platforms like Instagram and Twitter",
+                "Through specialized NFT marketplaces"
             ],
             "correctAnswer": "Through specialized NFT marketplaces"
         },
@@ -125,8 +125,8 @@
         {
             "question": "What does AI stand for?",
             "answers": [
-                "Artificial Imagination",
                 "Automated Intelligence",
+                "Artificial Imagination",
                 "Artificial Intelligence"
             ],
             "correctAnswer": "Artificial Intelligence"
@@ -134,9 +134,9 @@
         {
             "question": "What is the primary goal of AI?",
             "answers": [
-                "To simulate human thought and behavior",
                 "To replace human workers in various industries",
-                "To create sentient beings"
+                "To create sentient beings",
+                "To simulate human thought and behavior"
             ],
             "correctAnswer": "To simulate human thought and behavior"
         },
@@ -170,8 +170,8 @@
         {
             "question": "What is the Turing test?",
             "answers": [
-                "A test to determine if a machine is capable of exhibiting human-like intelligence",
                 "A test to determine if a machine is capable of self-awareness",
+                "A test to determine if a machine is capable of exhibiting human-like intelligence",
                 "A test to determine if a machine is capable of making ethical decisions"
             ],
             "correctAnswer": "A test to determine if a machine is capable of exhibiting human-like intelligence"
@@ -188,8 +188,8 @@
         {
             "question": "What is reinforcement learning?",
             "answers": [
-                "A type of machine learning where an agent learns by interacting with an environment",
                 "A type of machine learning where an agent learns by receiving feedback from a human",
+                "A type of machine learning where an agent learns by interacting with an environment",
                 "A type of machine learning where an agent learns by memorizing patterns in data"
             ],
             "correctAnswer": "A type of machine learning where an agent learns by interacting with an environment"
@@ -197,9 +197,9 @@
         {
             "question": "What is the difference between supervised and unsupervised learning?",
             "answers": [
-                "Supervised learning requires labeled data, while unsupervised learning does not",
                 "Supervised learning uses deep neural networks, while unsupervised learning uses decision trees",
-                "Supervised learning requires human input, while unsupervised learning is fully automated"
+                "Supervised learning requires human input, while unsupervised learning is fully automated",
+                "Supervised learning requires labeled data, while unsupervised learning does not"
             ],
             "correctAnswer": "Supervised learning requires labeled data, while unsupervised learning does not"
         },
@@ -251,8 +251,8 @@
         {
             "question": "How are NFT prices typically determined?",
             "answers": [
-                "Market demand and supply",
                 "Fixed value set by the creator",
+                "Market demand and supply",
                 "Randomized algorithm",
                 "Government regulation"
             ],
@@ -266,9 +266,9 @@
         {
             "question": "What is the purpose of a reserve price in NFT auctions?",
             "answers": [
-                "Minimum price the seller is willing to accept",
                 "Maximum price the buyer is willing to pay",
                 "Starting bid for the auction",
+                "Minimum price the seller is willing to accept",
                 "Transaction fee for the auction"
             ],
             "correctAnswer": "Minimum price the seller is willing to accept"
@@ -276,10 +276,10 @@
         {
             "question": "What is the primary risk of buying NFTs?",
             "answers": [
-                "Market volatility and price fluctuation",
                 "Lack of digital storage space",
                 "Limited access to digital marketplaces",
-                "Difficulty in transferring ownership"
+                "Difficulty in transferring ownership",
+                "Market volatility and price fluctuation"
             ],
             "correctAnswer": "Market volatility and price fluctuation"
         },
@@ -296,8 +296,8 @@
         {
             "question": "What is the key feature of NFTs that distinguishes them from other digital assets?",
             "answers": [
-                "Unique ownership and verifiable scarcity",
                 "Ease of duplication and reproduction",
+                "Unique ownership and verifiable scarcity",
                 "Interchangeability with other tokens",
                 "Fixed value that does not change"
             ],
@@ -306,9 +306,9 @@
         {
             "question": "What is the role of a smart contract in an NFT transaction?",
             "answers": [
-                "Facilitating the buying, selling, and transferring of NFTs",
                 "Verifying the authenticity of the NFT",
                 "Determining the price of the NFT",
+                "Facilitating the buying, selling, and transferring of NFTs",
                 "Storing the NFT on the blockchain"
             ],
             "correctAnswer": "Facilitating the buying, selling, and transferring of NFTs"

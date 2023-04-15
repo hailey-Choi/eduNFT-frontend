@@ -4,9 +4,7 @@ import Image from 'next/image'
 
 const FAQ = ({ question, answer }) => {
     return (
-        <div
-            className="bg-gray-900 dark:bg-gray-100 h-28 w-auto mb-4 rounded-md flex items-center"
-        >
+        <div className="bg-gray-900 dark:bg-gray-100 h-28 w-auto mb-4 rounded-md flex items-center">
             <p className="text-gray-200 dark:text-gray-500 text-lg ml-4">
                 Q) {question}
                 <br />

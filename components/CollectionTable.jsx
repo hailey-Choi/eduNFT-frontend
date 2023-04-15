@@ -76,8 +76,6 @@ export default function CollectionTable({ metadata, selectedTab }) {
         setShowModal(false)
     }
 
-    console.log('iscorrect: ', isCorrectAnswer)
-
     const listNFT = async (tokenId, price) => {
         const provider = window['klaytn']
         const caver = new Caver(provider)
@@ -293,7 +291,7 @@ export default function CollectionTable({ metadata, selectedTab }) {
                             )}
                             {showModal ? (
                                 <Modal
-                                    title="Before processing your request..."
+                                    title="Pass the Quiz to list your NFT !"
                                     type="quiz"
                                     setIsCorrectAnswer={setIsCorrectAnswer}
                                     handleUnderstood={handleAnswerSubmit}

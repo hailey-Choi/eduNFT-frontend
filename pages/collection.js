@@ -84,7 +84,6 @@ export default function Collection() {
                 await tokens.map((token) => {
                     try {
                         fetch(pinataEndpoint + token.tokenURI.slice(7), {
-                            // mode: "no-cors",
                             headers: {
                                 Accept: 'text/plain',
                             },
@@ -136,7 +135,7 @@ export default function Collection() {
         }
     }, [myContext.wallet])
 
-    // console.log("UserTokenMetadata", userTokenMetadata);
+    console.log('UserTokenMetadata', userTokenMetadata)
     // console.log("UserListedTokenMetadata: ", userListedTokenMetadata);
     // console.log("AllTokenMetadata", allTokenMetadata);
     // console.log("AllListedMetadat: ", allListedTokenMetadata);

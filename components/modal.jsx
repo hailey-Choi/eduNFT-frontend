@@ -26,7 +26,7 @@ export function Modal(props) {
                         <div className="relative p-6 flex-auto my-3 text-slate-500 text-lg leading-relaxed">
                             {props.type == 'quiz' ? (
                                 <Quiz
-                                    questionType="nft"
+                                    questionType="nft_trading"
                                     onClick={(isCorrect) =>
                                         props.setIsCorrectAnswer(isCorrect)
                                     }
