@@ -52,7 +52,6 @@ export default function Layout({ children }) {
             return
         }
 
-        console.log('accounts: ', accounts)
         if (accounts) {
             walletContext.setWallet(accounts[0])
         }

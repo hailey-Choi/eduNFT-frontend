@@ -59,9 +59,9 @@ export default function CollectionTable({ metadata, selectedTab }) {
                 !(
                     (selectedTab === tabs[0] && currentlyListed == true) ||
                     (selectedTab === tabs[2] &&
-                        seller.toUpperCase() == account.toUpperCase()) ||
+                        seller.toUpperCase() == account?.toUpperCase()) ||
                     (selectedTab === tabs[3] &&
-                        seller.toUpperCase() == account.toUpperCase())
+                        seller.toUpperCase() == account?.toUpperCase())
                 )
             ) {
                 purchaseNFT(tokenId, price)
@@ -236,13 +236,13 @@ export default function CollectionTable({ metadata, selectedTab }) {
                                                 data.currentlyListed == true) ||
                                             (selectedTab === tabs[2] &&
                                                 data.seller.toUpperCase() ==
-                                                    account.toUpperCase()) ||
+                                                    account?.toUpperCase()) ||
                                             (selectedTab === tabs[2] &&
                                                 data.currentlyListed ==
                                                     false) ||
                                             (selectedTab === tabs[3] &&
                                                 data.seller.toUpperCase() ==
-                                                    account.toUpperCase())
+                                                    account?.toUpperCase())
                                                 ? 'p-3 text-xs mt-2 bg-gray-500 hover:bg-gray-500 active:text-white'
                                                 : 'p-3 text-xs mt-2'
                                         }
@@ -252,13 +252,13 @@ export default function CollectionTable({ metadata, selectedTab }) {
                                                 data.currentlyListed == true) ||
                                             (selectedTab === tabs[2] &&
                                                 data.seller.toUpperCase() ==
-                                                    account.toUpperCase()) ||
+                                                    account?.toUpperCase()) ||
                                             (selectedTab === tabs[2] &&
                                                 data.currentlyListed ==
                                                     false) ||
                                             (selectedTab === tabs[3] &&
                                                 data.seller.toUpperCase() ==
-                                                    account.toUpperCase())
+                                                    account?.toUpperCase())
                                         }
                                     >
                                         {selectedTab === tabs[0] &&
@@ -271,10 +271,10 @@ export default function CollectionTable({ metadata, selectedTab }) {
                                             ? 'Cancel Listing'
                                             : (selectedTab === tabs[2] &&
                                                   data.seller.toUpperCase() ==
-                                                      account.toUpperCase()) ||
+                                                      account?.toUpperCase()) ||
                                               (selectedTab === tabs[3] &&
                                                   data.seller.toUpperCase() ==
-                                                      account.toUpperCase())
+                                                      account?.toUpperCase())
                                             ? 'Owned'
                                             : 'Buy now'}
                                     </Button>

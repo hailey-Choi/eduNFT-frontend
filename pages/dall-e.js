@@ -35,7 +35,7 @@ export default function DallE() {
                     'https://f5omod4tyb.execute-api.ap-northeast-2.amazonaws.com/v1/api/dall-e',
                     {
                         description: data.keyword,
-                        numbers: 1,
+                        numbers: 3,
                     },
                 )
                 setImages(response.data.data)
